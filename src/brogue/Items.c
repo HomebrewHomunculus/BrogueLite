@@ -2774,7 +2774,7 @@ char displayInventory(unsigned short categoryMask,
         itemName(theItem, buf, true, true, (buttons[i].flags & B_HOVER_ENABLED) ? &white : &gray);
         upperCase(buf);
 
-        if ((theItem->flags & ITEM_MAGIC_DETECTED)
+        if ((true) // Brogueasy: always reveal magic polarity of inventory items
             && !(theItem->category & AMULET)) { // Won't include food, keys, lumenstones or amulet.
 
             int polarity = itemMagicPolarity(theItem);
@@ -6718,7 +6718,6 @@ void drinkPotion(item *theItem) {
     item *tempItem = NULL;
     creature *monst = NULL;
     boolean hadEffect = false;
-    boolean hadEffect2 = false;
     char buf[1000] = "";
 
     brogueAssert(rogue.RNG == RNG_SUBSTANTIVE);
@@ -6796,7 +6795,6 @@ void drinkPotion(item *theItem) {
             break;
         case POTION_DETECT_MAGIC:
             hadEffect = false;
-            hadEffect2 = false;
             for (tempItem = floorItems->nextItem; tempItem != NULL; tempItem = tempItem->nextItem) {
                 if (tempItem->category & CAN_BE_DETECTED) {
                     detectMagicOnItem(tempItem);
@@ -6819,21 +6817,12 @@ void drinkPotion(item *theItem) {
             for (tempItem = packItems->nextItem; tempItem != NULL; tempItem = tempItem->nextItem) {
                 if (tempItem->category & CAN_BE_DETECTED) {
                     detectMagicOnItem(tempItem);
-                    if (itemMagicPolarity(tempItem)) {
-                        if (tempItem->flags & ITEM_MAGIC_DETECTED) {
-                            hadEffect2 = true;
-                        }
-                    }
+                    // Brogueasy: inventory items' polarity is already displayed, so no need to print a message.
+                    // However, inventory items that are detected here and then thrown or stolen will glow on the map.
                 }
             }
-            if (hadEffect || hadEffect2) {
-                if (hadEffect && hadEffect2) {
-                    message("you can somehow feel the presence of magic on the level and in your pack.", false);
-                } else if (hadEffect) {
-                    message("you can somehow feel the presence of magic on the level.", false);
-                } else {
-                    message("you can somehow feel the presence of magic in your pack.", false);
-                }
+            if (hadEffect) {
+                message("you can somehow feel the presence of magic on the level.", false);
             } else {
                 message("you can somehow feel the absence of magic on the level and in your pack.", false);
             }
