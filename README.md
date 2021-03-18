@@ -1,3 +1,73 @@
+Brogueasy
+=========
+
+Brogueasy is a variant of the roguelike game Brogue, specifically, of
+Brogue Community Edition. Brogueasy changes the game to make it easier.
+Certain systems (like item identification) are streamlined or removed.
+
+
+About
+-----
+
+### Who is Brogueasy for?
+
+-
+  Novice players who want to practice the rules of the game before
+  graduating to the classic Brogue experience.
+-
+  Roguelike players who dislike the item identification game.
+-
+  Brogue players who occasionally want to switch it up with a more casual experience.
+
+
+### How is Brogueasy different from Brogue CE?
+
+Certain tricky systems like item identification are streamlined or removed.
+Otherwise, Brogueasy will remain quite "vanilla" - the goal is not to add
+new monsters, etc., though in some cases new items may need to be added
+to balance out the ones that are removed.
+  
+
+## List of changed features
+
+
+Currently implemented:
+- 
+  N/A 
+
+
+TODO: 
+-
+  Remove the identification system. All items are identified (on creation/on pickup?). 
+  Remove scolls of identify.
+-
+  Removed certain potions which have no use once identified.
+-
+  Removed certain cursed equipment which have no use once identified.
+
+
+Planned potential changes - TBD:
+-
+  Remove all wands. Certain wand types changed to staffs instead.
+-
+  Add some additional starting kit?
+-
+  Replace some of the removed cursed items with items that make more sense with the 
+  lack of identification.
+-
+  What should be done with the ally system? Would removing it simplify the game, or make it harder?
+
+
+
+
+
+
+
+
+The original readme for Brogue CE follows.
+=========
+
+
 Brogue CE
 =========
 

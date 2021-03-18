@@ -9,19 +9,19 @@
     <key>CFBundleIconFile</key>
     <string>Brogue.icns</string>
     <key>CFBundleIdentifier</key>
-    <string>com.Brogue.CommunityEdition</string>
+    <string>com.Brogueasy.Brogueasy</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
     <key>CFBundleName</key>
-    <string>Brogue CE</string>
+    <string>Brogueasy</string>
     <key>CFBundleDisplayName</key>
-    <string>Brogue CE</string>
+    <string>Brogueasy/string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleVersion</key>
-    <string>1.9.4</string>
+    <string>1.9.3</string>
     <key>CFBundleShortVersionString</key>
-    <string>1.9.4</string>
+    <string>1.9.3</string>
     <key>CFBundleSignature</key>
     <string>????</string>
     <key>CFBundleSupportedPlatforms</key>

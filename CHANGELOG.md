@@ -1,3 +1,25 @@
+Brogueasy Changelog
+====
+
+1.9.3
+====
+First version of Brogueasy, forked from Brogue Community Edition 1.9.3.
+
+-
+  Updated Info.plist and Rogue.h to refer to "Brogueasy" instead of "CE".
+-
+  Updated README.md to introduce Brogueasy.
+
+
+
+
+
+
+
+Original changelog for Brogue CE follows.
+====
+
+
 1.9.3
 =====
 
