@@ -6279,8 +6279,7 @@ void apply(item *theItem, boolean recordCommands) {
                 commandsRecorded = true; // have to record in case further keystrokes are necessary (e.g. enchant scroll)
             }
             if (!scrollTable[theItem->kind].identified
-                && theItem->kind != SCROLL_ENCHANTING
-                && theItem->kind != SCROLL_IDENTIFY) {
+                && theItem->kind != SCROLL_ENCHANTING) {
 
                 revealItemType = true;
             }
@@ -6496,35 +6495,6 @@ void readScroll(item *theItem) {
     rogue.featRecord[FEAT_ARCHIVIST] = false;
 
     switch (theItem->kind) {
-        case SCROLL_IDENTIFY:
-            identify(theItem);
-            updateIdentifiableItems();
-            messageWithColor("this is a scroll of identify.", &itemMessageColor, true);
-            if (numberOfMatchingPackItems(ALL_ITEMS, ITEM_CAN_BE_IDENTIFIED, 0, false) == 0) {
-                message("everything in your pack is already identified.", false);
-                break;
-            }
-            do {
-                theItem = promptForItemOfType((ALL_ITEMS), ITEM_CAN_BE_IDENTIFIED, 0,
-                                              KEYBOARD_LABELS ? "Identify what? (a-z; shift for more info)" : "Identify what?",
-                                              false);
-                if (rogue.gameHasEnded) {
-                    return;
-                }
-                if (theItem && !(theItem->flags & ITEM_CAN_BE_IDENTIFIED)) {
-                    confirmMessages();
-                    itemName(theItem, buf2, true, true, NULL);
-                    sprintf(buf, "you already know %s %s.", (theItem->quantity > 1 ? "they're" : "it's"), buf2);
-                    messageWithColor(buf, &itemMessageColor, false);
-                }
-            } while (theItem == NULL || !(theItem->flags & ITEM_CAN_BE_IDENTIFIED));
-            recordKeystroke(theItem->inventoryLetter, false, false);
-            confirmMessages();
-            identify(theItem);
-            itemName(theItem, buf, true, true, NULL);
-            sprintf(buf2, "%s %s.", (theItem->quantity == 1 ? "this is" : "these are"), buf);
-            messageWithColor(buf2, &itemMessageColor, false);
-            break;
         case SCROLL_TELEPORT:
             teleport(&player, -1, -1, true);
             break;

@@ -902,7 +902,6 @@ enum charmKind {
 
 enum scrollKind {
     SCROLL_ENCHANTING,
-    SCROLL_IDENTIFY,
     SCROLL_TELEPORT,
     SCROLL_REMOVE_CURSE,
     SCROLL_RECHARGING,
