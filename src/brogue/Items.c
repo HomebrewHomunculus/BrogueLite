@@ -395,6 +395,10 @@ item *placeItem(item *theItem, short x, short y) {
             }
         }
     }
+
+    // Brogueasy: identify items automatically when placed in level
+    identify(theItem);
+
     return theItem;
 }
 
