@@ -1,0 +1,11 @@
+*.o
+bin/*.brogue*
+bin/BrogueHighScores.txt
+bin/brogue*
+.vscode
+*.su
+*.gcda
+*.gcno
+*.gcov
+gmon.out
+
