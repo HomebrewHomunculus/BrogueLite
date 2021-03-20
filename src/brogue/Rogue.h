@@ -2649,6 +2649,7 @@ extern "C" {
     boolean search(short searchStrength);
     boolean proposeOrConfirmLocation(short x, short y, char *failureMessage);
     boolean useStairs(short stairDirection);
+    void printLevelFeeling();
     short passableArcCount(short x, short y);
     void analyzeMap(boolean calculateChokeMap);
     boolean buildAMachine(enum machineTypes bp,

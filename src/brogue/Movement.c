@@ -2205,11 +2205,15 @@ boolean useStairs(short stairDirection) {
             //copyDisplayBuffer(fromBuf, displayBuffer);
             rogue.cursorLoc[0] = rogue.cursorLoc[1] = -1;
             rogue.depthLevel++;
-            message("You descend.", false);
+
             startLevel(rogue.depthLevel - 1, stairDirection);
             if (rogue.depthLevel > rogue.deepestLevel) {
                 rogue.deepestLevel = rogue.depthLevel;
             }
+
+            // Brogueasy: print descend message with level feeling if there is a lake, chasm, or lava.
+            printLevelFeeling();
+
             //copyDisplayBuffer(toBuf, displayBuffer);
             //irisFadeBetweenBuffers(fromBuf, toBuf, mapToWindowX(player.xLoc), mapToWindowY(player.yLoc), 20, false);
         } else if (numberOfMatchingPackItems(AMULET, 0, 0, false)) {
@@ -2246,6 +2250,38 @@ boolean useStairs(short stairDirection) {
     }
 
     return succeeded;
+}
+
+
+void printLevelFeeling() {
+  short i, j;
+
+  int lavaCount = 0;
+  int chasmCount = 0;
+  int lakeCount = 0;
+
+  for (i=0; i<DCOLS; i++) {
+      for (j=0; j<DROWS; j++) {
+          if (cellHasTerrainFlag(i, j, T_LAVA_INSTA_DEATH)) {
+              lavaCount++;
+          } else if (cellHasTerrainFlag(i, j, T_AUTO_DESCENT)) {
+              chasmCount++;
+          } else if (cellHasTerrainFlag(i, j, T_IS_DEEP_WATER)) {
+              lakeCount++;
+          }
+      }
+  }
+
+  // Try to print the most prominent feature when more than one present.
+  if (lavaCount >= chasmCount && lavaCount >= lakeCount) {
+      messageWithColor("You descend. The air turns hot and sulphurous.", &badMessageColor, false);
+  } else if (chasmCount >= lavaCount && chasmCount >= lakeCount) {
+      messageWithColor("You descend. A chilly draft rises from below.", &badMessageColor, false);
+  } else if (lakeCount >= chasmCount && lakeCount >= lavaCount) {
+      message("You descend. The air feels moist.", false);
+  } else {
+    message("You descend.", false);
+  }
 }
 
 void storeMemories(const short x, const short y) {
