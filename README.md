@@ -40,9 +40,12 @@ Currently implemented:
 TODO:
 
 -
-  Remove certain potions which have no use once identified.
+  Remove or rework any potions which have no good use once identified. (Hallucination should
+    either be removed or to do something useful when thrown and/or quaffed?)
 -
-  Remove certain cursed equipment which have no use once identified.
+  Remove or rework any staffs or wands which have no good use once identified.
+-
+  Remove certain cursed equipment/negative runics/negative items which have no use once identified.
 
 
 Planned potential changes - TBD:
@@ -54,12 +57,16 @@ Planned potential changes - TBD:
 -
   Guaranteed vaults on D1?
 -
-  Replace some of the removed cursed items with items that make more sense with the
-  lack of identification.
+  Replace some of the removed negative items and runics with new ones that make more sense
+  with the lack of identification?
 -
   What should be done with the ally system? Would removing it simplify the game, or make it harder?
+  Should there be an alternative for players who don't wish to use allies but with an opportunity cost?
+  (For example, instead of freeing a captured enemy, you could sacrifice it for some other reward?)
 -
   A message to notify when detected by enemies?
+-
+  Level feeling messages, e.g. for levels with lava lakes and pits?
 
 
 
