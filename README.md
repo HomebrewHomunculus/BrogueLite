@@ -34,31 +34,32 @@ to balance out the ones that are removed.
 Currently implemented:
 
 -
-  N/A
+  Removed the identification system. All items are identified upon creation.
 
 
 TODO:
 
 -
-  Remove the identification system. All items are identified (on creation/on pickup?).
-  Remove scolls of identify.
+  Remove certain potions which have no use once identified.
 -
-  Removed certain potions which have no use once identified.
--
-  Removed certain cursed equipment which have no use once identified.
+  Remove certain cursed equipment which have no use once identified.
 
 
 Planned potential changes - TBD:
 
 -
-  Remove all wands. Certain wand types changed to staffs instead.
+  Remove all wands. Replace certain wand types with staffs or charms where appropriate.
 -
   Add some additional starting kit?
+-
+  Guaranteed vaults on D1?
 -
   Replace some of the removed cursed items with items that make more sense with the
   lack of identification.
 -
   What should be done with the ally system? Would removing it simplify the game, or make it harder?
+-
+  A message to notify when detected by enemies?
 
 
 
