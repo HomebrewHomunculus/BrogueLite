@@ -26,19 +26,21 @@ Certain tricky systems like item identification are streamlined or removed.
 Otherwise, Brogueasy will remain quite "vanilla" - the goal is not to add
 new monsters, etc., though in some cases new items may need to be added
 to balance out the ones that are removed.
-  
 
-## List of changed features
+
+### List of changed features
 
 
 Currently implemented:
-- 
-  N/A 
 
-
-TODO: 
 -
-  Remove the identification system. All items are identified (on creation/on pickup?). 
+  N/A
+
+
+TODO:
+
+-
+  Remove the identification system. All items are identified (on creation/on pickup?).
   Remove scolls of identify.
 -
   Removed certain potions which have no use once identified.
@@ -47,12 +49,13 @@ TODO:
 
 
 Planned potential changes - TBD:
+
 -
   Remove all wands. Certain wand types changed to staffs instead.
 -
   Add some additional starting kit?
 -
-  Replace some of the removed cursed items with items that make more sense with the 
+  Replace some of the removed cursed items with items that make more sense with the
   lack of identification.
 -
   What should be done with the ally system? Would removing it simplify the game, or make it harder?

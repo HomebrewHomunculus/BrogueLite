@@ -6,6 +6,12 @@ Brogueasy Changelog
 First version of Brogueasy, forked from Brogue Community Edition 1.9.3.
 
 -
+  Removed item identification: all items start out as already identified.
+-
+  Removed scroll of identify.
+-
+  Items in inventory always show their magic polarity (positive/negative/not magical).
+-
   Updated Info.plist and Rogue.h to refer to "Brogueasy" instead of "CE".
 -
   Updated README.md to introduce Brogueasy.
