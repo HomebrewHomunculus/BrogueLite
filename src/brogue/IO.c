@@ -4522,6 +4522,17 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                 printString("                    ", 0, y, &white, &black, 0);
                 printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &black, 0);
             }
+
+            // Brogueasy: display turn counter
+            boolean showTurnCount = true;
+
+            if (showTurnCount) {
+               if (y < ROWS - 1) {
+                 sprintf(buf, "Turn: %li", rogue.playerTurnNumber);
+                 printString("                    ", 0, y, &white, &black, 0);
+                 printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &black, 0);
+               }
+            }
             if (y < ROWS - 1) {
                 tempColorEscape[0] = '\0';
                 grayColorEscape[0] = '\0';
