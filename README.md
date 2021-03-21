@@ -37,7 +37,8 @@ Currently implemented:
   Removed the identification system. All items are identified upon creation.
 -
   Added "level feeling" messages when descending.
-
+-
+  Added turn counter to sidebar.
 
 TODO:
 

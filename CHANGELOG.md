@@ -14,6 +14,8 @@ First version of Brogueasy, forked from Brogue Community Edition 1.9.3.
 -
   Added level feeling messages.
 -
+  Added turn counter to sidebar.
+-
   Updated Info.plist and Rogue.h to refer to "Brogueasy" instead of "CE".
 -
   Updated README.md to introduce Brogueasy.
