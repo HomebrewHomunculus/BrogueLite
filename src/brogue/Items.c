@@ -72,7 +72,18 @@ item *generateItem(unsigned short theCategory, short theKind) {
 
 unsigned long pickItemCategory(unsigned long theCategory) {
     short i, sum, randIndex;
-    short probabilities[13] =                       {50,    42,     52,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
+
+    //short probabilities[13] =                       {50,    42,     52,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
+
+    // Brogueasy:
+    // We've removed scroll of identify, which is 30/158 of scrolls = 19%.
+    // So should we reduce the relative frequency of scrolls by 19%?
+    // From 42 to 34.
+    // Also, aggravate monsters = 15/158 and summon monsters = 10/158.
+    // Removing all of them is a total 55/158 frequency, so reducing overall
+    // scroll frequency by 35% = from 42 to 27.
+    short probabilities[13] =                       {50,    27,     52,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
+
     unsigned short correspondingCategories[13] =    {GOLD,  SCROLL, POTION, STAFF,  WAND,   WEAPON, ARMOR,  FOOD,   RING,   CHARM,    AMULET,   GEM,    KEY};
 
     sum = 0;
@@ -6660,37 +6671,6 @@ void readScroll(item *theItem) {
             }
             colorFlash(&magicMapFlashColor, 0, MAGIC_MAPPED, 15, DCOLS + DROWS, player.xLoc, player.yLoc);
             break;
-        case SCROLL_AGGRAVATE_MONSTER:
-            aggravateMonsters(DCOLS + DROWS, player.xLoc, player.yLoc, &gray);
-            message("the scroll emits a piercing shriek that echoes throughout the dungeon!", false);
-            break;
-        case SCROLL_SUMMON_MONSTER:
-            for (j=0; j<25 && numberOfMonsters < 3; j++) {
-                for (i=0; i<8; i++) {
-                    x = player.xLoc + nbDirs[i][0];
-                    y = player.yLoc + nbDirs[i][1];
-                    if (!cellHasTerrainFlag(x, y, T_OBSTRUCTS_PASSABILITY) && !(pmap[x][y].flags & HAS_MONSTER)
-                        && rand_percent(10) && (numberOfMonsters < 3)) {
-                        monst = spawnHorde(0, x, y, (HORDE_LEADER_CAPTIVE | HORDE_NO_PERIODIC_SPAWN | HORDE_IS_SUMMONED | HORDE_MACHINE_ONLY), 0);
-                        if (monst) {
-                            // refreshDungeonCell(x, y);
-                            // monst->creatureState = MONSTER_TRACKING_SCENT;
-                            // monst->ticksUntilTurn = player.movementSpeed;
-                            wakeUp(monst);
-                            fadeInMonster(monst);
-                            numberOfMonsters++;
-                        }
-                    }
-                }
-            }
-            if (numberOfMonsters > 1) {
-                message("the fabric of space ripples, and monsters appear!", false);
-            } else if (numberOfMonsters == 1) {
-                message("the fabric of space ripples, and a monster appears!", false);
-            } else {
-                message("the fabric of space boils violently around you, but nothing happens.", false);
-            }
-            break;
         case SCROLL_NEGATION:
             negationBlast("the scroll", DCOLS);
             break;
@@ -6853,10 +6833,6 @@ short magicCharDiscoverySuffix(short category, short kind) {
     switch (category) {
         case SCROLL:
             switch (kind) {
-                case SCROLL_AGGRAVATE_MONSTER:
-                case SCROLL_SUMMON_MONSTER:
-                    result = -1;
-                    break;
                 default:
                     result = 1;
                     break;
@@ -6914,9 +6890,6 @@ int itemMagicPolarity(item *theItem) {
             break;
         case SCROLL:
             switch (theItem->kind) {
-                case SCROLL_AGGRAVATE_MONSTER:
-                case SCROLL_SUMMON_MONSTER:
-                    return -1;
                 default:
                     return 1;
             }
