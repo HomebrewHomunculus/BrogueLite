@@ -36,6 +36,8 @@ Currently implemented:
 -
   Removed the identification system. All items are identified upon creation.
 -
+  Removed negative scrolls that have very little use once identified.
+-
   Added "level feeling" messages when descending.
 -
   Added turn counter to sidebar.
@@ -43,8 +45,7 @@ Currently implemented:
 TODO:
 
 -
-  Remove or rework any potions which have no good use once identified. (Hallucination should
-    either be removed or to do something useful when thrown and/or quaffed?)
+  Remove potion of hallucination, which has no use once identified.
 -
   Remove or rework any staffs or wands which have no good use once identified.
 -

@@ -12,6 +12,8 @@ First version of Brogueasy, forked from Brogue Community Edition 1.9.3.
 -
   Items in inventory always show their magic polarity (positive/negative/not magical).
 -
+  Removed negative scrolls (summon monster, aggravate monster). Adjusted scroll frequency accordingly.
+-
   Added level feeling messages.
 -
   Added turn counter to sidebar.
