@@ -2410,8 +2410,6 @@ itemTable scrollTable[NUMBER_SCROLL_KINDS] = {
     {"negation",            itemTitles[9], "",  8,  400,    0,{0,0,0}, false, false, "When this powerful anti-magic is released, all creatures (including yourself) and all items lying on the ground within your field of view will be exposed to its blast and stripped of magic. Creatures animated purely by magic will die. Potions, scrolls, items being held by other creatures and items in your inventory will not be affected."},
     {"shattering",          itemTitles[10],"",  8,  500,    0,{0,0,0}, false, false, "This strange incantation will alter the physical structure of nearby stone, causing it to evaporate into the air over the ensuing minutes."},
     {"discord",             itemTitles[11], "", 8,  400,    0,{0,0,0}, false, false, "This scroll will unleash a powerful blast of mind magic. Any creatures within line of sight will turn against their companions and attack indiscriminately for 30 turns."},
-    {"aggravate monsters",  itemTitles[12], "", 15, 50,     0,{0,0,0}, false, false, "This scroll will unleash a piercing shriek that will awaken all monsters and alert them to the reader's location."},
-    {"summon monsters",     itemTitles[13], "", 10, 50,     0,{0,0,0}, false, false, "This summoning incantation will call out to creatures in other planes of existence, drawing them through the fabric of reality to confront the reader."},
 };
 
 itemTable potionTable[NUMBER_POTION_KINDS] = {
