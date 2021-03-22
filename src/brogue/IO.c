@@ -4523,8 +4523,8 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                 printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &black, 0);
             }
 
-            // Brogueasy: display turn counter
-            boolean showTurnCount = true;
+            // Brogueasy: display turn counter in player stats - except if already showing it due to playback
+            boolean showTurnCount = !rogue.playbackOmniscience;
 
             if (showTurnCount) {
                if (y < ROWS - 1) {

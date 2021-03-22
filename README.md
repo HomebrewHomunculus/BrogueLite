@@ -56,12 +56,14 @@ Planned potential changes - TBD:
 -
   Remove all wands. Replace certain wand types with staffs or charms where appropriate.
 -
-  Add some additional starting kit?
+  Add some additional starting kit? Probably not needed, the free-identify ruleset already feels quite generous on items.
 -
   Guaranteed vaults on D1?
 -
   Replace some of the removed negative items and runics with new ones that make more sense
   with the lack of identification?
+  Or give the existing one positive effects? For example: aggravating monsters makes them unable to cast spells.
+  Armor of immolation automatically removes webs, nets, and creeping death at your feet.
 -
   What should be done with the ally system? Would removing it simplify the game, or make it harder?
   Should there be an alternative for players who don't wish to use allies but with an opportunity cost?
