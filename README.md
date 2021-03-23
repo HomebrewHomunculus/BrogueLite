@@ -38,14 +38,14 @@ Currently implemented:
 -
   Removed negative scrolls that have very little use once identified.
 -
+  Removed potion of hallucination, which has no use once identified.
+-
   Added "level feeling" messages when descending.
 -
   Added turn counter to sidebar.
 
 TODO:
 
--
-  Remove potion of hallucination, which has no use once identified.
 -
   Remove or rework any staffs or wands which have no good use once identified.
 -
