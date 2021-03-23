@@ -75,14 +75,21 @@ unsigned long pickItemCategory(unsigned long theCategory) {
 
     //short probabilities[13] =                       {50,    42,     52,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
 
-    // Brogueasy:
+    // Brogueasy: adjust item frequencies
+    //
     // We've removed scroll of identify, which is 30/158 of scrolls = 19%.
     // So should we reduce the relative frequency of scrolls by 19%?
     // From 42 to 34.
     // Also, aggravate monsters = 15/158 and summon monsters = 10/158.
     // Removing all of them is a total 55/158 frequency, so reducing overall
-    // scroll frequency by 35% = from 42 to 27.
-    short probabilities[13] =                       {50,    27,     52,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
+    // scroll frequency by 35% = from 42 to ~27.
+    //
+    // Potions had a total frequency of 189, with hallucination 10/189 = 5%.
+    // So, after removing hallucinationg, reduce overall potion
+    // probability from 52 to (52*(1-10/189)) ~= 49.
+
+
+    short probabilities[13] =                       {50,    27,     49,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
 
     unsigned short correspondingCategories[13] =    {GOLD,  SCROLL, POTION, STAFF,  WAND,   WEAPON, ARMOR,  FOOD,   RING,   CHARM,    AMULET,   GEM,    KEY};
 
@@ -5771,9 +5778,6 @@ void throwItem(item *theItem, creature *thrower, short targetLoc[2], short maxDi
             sprintf(buf, "the flask shatters and %s liquid splashes harmlessly %s %s.",
                     potionTable[theItem->kind].flavor, buf2, tileText(x, y));
             message(buf, false);
-            if (theItem->kind == POTION_HALLUCINATION && (theItem->flags & ITEM_MAGIC_DETECTED)) {
-                autoIdentify(theItem);
-            }
         }
         deleteItem(theItem);
         return; // potions disappear when they break
@@ -6715,10 +6719,6 @@ void drinkPotion(item *theItem) {
             updatePlayerRegenerationDelay();
             messageWithColor(buf, &advancementMessageColor, false);
             break;
-        case POTION_HALLUCINATION:
-            player.status[STATUS_HALLUCINATING] = player.maxStatus[STATUS_HALLUCINATING] = 300;
-            message("colors are everywhere! The walls are singing!", false);
-            break;
         case POTION_INCINERATION:
             //colorFlash(&darkOrange, 0, IN_FIELD_OF_VIEW, 4, 4, player.xLoc, player.yLoc);
             message("as you uncork the flask, it explodes in flame!", false);
@@ -6840,7 +6840,6 @@ short magicCharDiscoverySuffix(short category, short kind) {
             break;
         case POTION:
             switch (kind) {
-                case POTION_HALLUCINATION:
                 case POTION_INCINERATION:
                 case POTION_DESCENT:
                 case POTION_POISON:
@@ -6895,7 +6894,6 @@ int itemMagicPolarity(item *theItem) {
             }
         case POTION:
             switch (theItem->kind) {
-                case POTION_HALLUCINATION:
                 case POTION_INCINERATION:
                 case POTION_DESCENT:
                 case POTION_POISON:

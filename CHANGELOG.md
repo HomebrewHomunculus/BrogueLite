@@ -14,6 +14,8 @@ First version of Brogueasy, forked from Brogue Community Edition 1.9.3.
 -
   Removed negative scrolls (summon monster, aggravate monster). Adjusted scroll frequency accordingly.
 -
+  Removed potion of hallucination. Adjusted potion frequency accordingly.
+-
   Added level feeling messages.
 -
   Added turn counter to sidebar.
