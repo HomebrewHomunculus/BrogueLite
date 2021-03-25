@@ -4355,10 +4355,13 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                 encodeMessageColor(monstName, strlen(monstName) - 4, &monstForeColor);
                 strcat(monstName, "(lit)");
             }
-        }
 
-        sprintf(buf, ": %s", monstName);
-        printString(buf, monst->carriedItem?2:1, y++, (dim ? &monstForeColor : &monstForeColor), &backgroundColor, 0);
+          sprintf(buf, ": %s", monstName);
+          printString(buf, monst->carriedItem?2:1, y++, (dim ? &gray : &white), &backgroundColor, 0);
+        } else {
+          sprintf(buf, ": %s", monstName);
+          printString(buf, monst->carriedItem?2:1, y++, (dim ? &monstForeColor : &monstForeColor), &backgroundColor, 0);
+      }
     }
 
     // mutation, if any
@@ -4461,16 +4464,16 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                 if (player.status[STATUS_HALLUCINATING] && !rogue.playbackOmniscience && y < ROWS - 1) {
                     printString(hallucinationStrings[rand_range(0, 9)], 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 } else if (monst->bookkeepingFlags & MB_CAPTIVE && y < ROWS - 1) {
-                    printString("     (Captive)      ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
+                    printString("     (Captive)      ", 0, y++, (dim ? &darkGreen : &darkGreen), &backgroundColor, 0);
                 } else if ((monst->info.flags & MONST_RESTRICTED_TO_LIQUID)
                            && !cellHasTMFlag(monst->xLoc, monst->yLoc, TM_ALLOWS_SUBMERGING)) {
-                    printString("     (Helpless)     ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
+                    printString("     (Helpless)     ", 0, y++, (dim ? &teal : &teal), &backgroundColor, 0);
                 } else if (monst->creatureState == MONSTER_SLEEPING && y < ROWS - 1) {
-                    printString("     (Sleeping)     ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
+                    printString("     (Sleeping)     ", 0, y++, (dim ? &teal : &teal), &backgroundColor, 0);
                 } else if ((monst->creatureState == MONSTER_ALLY) && y < ROWS - 1) {
-                    printString("       (Ally)       ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
+                    printString("       (Ally)       ", 0, y++, (dim ? &darkGreen : &darkGreen), &backgroundColor, 0);
                 } else if (monst->creatureState == MONSTER_FLEEING && y < ROWS - 1) {
-                    printString("     (Fleeing)      ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
+                    printString("     (Fleeing)      ", 0, y++, (dim ? &darkPurple : &darkPurple), &backgroundColor, 0);
                 } else if ((monst->creatureState == MONSTER_WANDERING) && y < ROWS - 1) {
                     if ((monst->bookkeepingFlags & MB_FOLLOWER) && monst->leader && (monst->leader->info.flags & MONST_IMMOBILE)) {
                         // follower of an immobile leader -- i.e. a totem
@@ -4482,9 +4485,9 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                         printString("    (Wandering)     ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                     }
                 } else if (monst->ticksUntilTurn > max(0, player.ticksUntilTurn) + player.movementSpeed) {
-                    printString("   (Off balance)    ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
+                    printString("   (Off balance)    ", 0, y++, (dim ? &darkYellow : &darkYellow), &backgroundColor, 0);
                 } else if ((monst->creatureState == MONSTER_TRACKING_SCENT) && y < ROWS - 1) {
-                    printString("     (Hunting)      ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
+                    printString("     (Hunting)      ", 0, y++, (dim ? &darkRed : &red), &backgroundColor, 0);
                 }
             }
         } else if (monst == &player) {
