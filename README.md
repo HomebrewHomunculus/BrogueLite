@@ -17,8 +17,6 @@ About
 -
   Roguelike players who dislike the item identification game.
 -
-+44 −22
-
   Brogue players who occasionally want to switch it up with a more casual experience.
 
 
