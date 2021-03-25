@@ -3421,6 +3421,8 @@ void refreshSideBar(short focusX, short focusY, boolean focusedEntityMustGoFirst
     char addedEntity[DCOLS][DROWS];
     short oldRNG;
 
+    color sidebarColor = sidebarBackColor; // black
+
     if (rogue.gameHasEnded || rogue.playbackFastForward) {
         return;
     }
@@ -3464,17 +3466,17 @@ void refreshSideBar(short focusX, short focusY, boolean focusedEntityMustGoFirst
 
     // Header information for playback mode.
     if (rogue.playbackMode) {
-        printString("   -- PLAYBACK --   ", 0, printY++, &white, &black, 0);
+        printString("   -- PLAYBACK --   ", 0, printY++, &white, &sidebarColor, 0);
         if (rogue.howManyTurns > 0) {
             sprintf(buf, "Turn %li/%li", rogue.playerTurnNumber, rogue.howManyTurns);
             printProgressBar(0, printY++, buf, rogue.playerTurnNumber, rogue.howManyTurns, &darkPurple, false);
         }
         if (rogue.playbackOOS) {
-            printString("    [OUT OF SYNC]   ", 0, printY++, &badMessageColor, &black, 0);
+            printString("    [OUT OF SYNC]   ", 0, printY++, &badMessageColor, &sidebarColor, 0);
         } else if (rogue.playbackPaused) {
-            printString("      [PAUSED]      ", 0, printY++, &gray, &black, 0);
+            printString("      [PAUSED]      ", 0, printY++, &gray, &sidebarColor, 0);
         }
-        printString("                    ", 0, printY++, &white, &black, 0);
+        printString("                    ", 0, printY++, &white, &sidebarColor, 0);
     }
 
     // Now list the monsters that we'll be displaying in the order of their proximity to player (listing the focused first if required).
@@ -3612,10 +3614,10 @@ void refreshSideBar(short focusX, short focusY, boolean focusedEntityMustGoFirst
     if (gotFocusedEntityOnScreen) {
         // Wrap things up.
         for (i=printY; i< ROWS - 1; i++) {
-            printString("                    ", 0, i, &white, &black, 0);
+            printString("                    ", 0, i, &white, &sidebarColor, 0);
         }
         sprintf(buf, "  -- Depth: %i --%s   ", rogue.depthLevel, (rogue.depthLevel < 10 ? " " : ""));
-        printString(buf, 0, ROWS - 1, &white, &black, 0);
+        printString(buf, 0, ROWS - 1, &white, &sidebarColor, 0);
     } else if (!focusedEntityMustGoFirst) {
         // Failed to get the focusMonst printed on the screen. Try again, this time with the focus first.
         refreshSideBar(focusX, focusY, true);
@@ -4251,6 +4253,8 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
     boolean inPath;
     short oldRNG;
 
+    color backgroundColor = sidebarBackColor;
+
     const char hallucinationStrings[16][COLS] = {
         "     (Dancing)      ",
         "     (Singing)      ",
@@ -4309,7 +4313,7 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
     //assureCosmeticRNG;
 
     if (y < ROWS - 1) {
-        printString("                    ", 0, y, &white, &black, 0); // Start with a blank line
+        printString("                    ", 0, y, &white, &backgroundColor, 0); // Start with a blank line
 
         // Unhighlight if it's highlighted as part of the path.
         inPath = (pmap[monst->xLoc][monst->yLoc].flags & IS_IN_PATH) ? true : false;
@@ -4322,15 +4326,15 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
         }
 
         if (dim) {
-            applyColorAverage(&monstForeColor, &black, 50);
-            applyColorAverage(&monstBackColor, &black, 50);
+            applyColorAverage(&monstForeColor, &backgroundColor, 50);
+            applyColorAverage(&monstBackColor, &backgroundColor, 50);
         } else if (highlight) {
-            applyColorAugment(&monstForeColor, &black, 100);
-            applyColorAugment(&monstBackColor, &black, 100);
+            applyColorAugment(&monstForeColor, &backgroundColor, 100);
+            applyColorAugment(&monstBackColor, &backgroundColor, 100);
         }
         plotCharWithColor(monstChar, 0, y, &monstForeColor, &monstBackColor);
         if(monst->carriedItem) {
-            plotCharWithColor(monst->carriedItem->displayChar, 1, y, &itemColor, &black);
+            plotCharWithColor(monst->carriedItem->displayChar, 1, y, &itemColor, &backgroundColor);
         }
         monsterName(monstName, monst, false);
         upperCase(monstName);
@@ -4354,7 +4358,7 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
         }
 
         sprintf(buf, ": %s", monstName);
-        printString(buf, monst->carriedItem?2:1, y++, (dim ? &gray : &white), &black, 0);
+        printString(buf, monst->carriedItem?2:1, y++, (dim ? &gray : &white), &backgroundColor, 0);
     }
 
     // mutation, if any
@@ -4374,7 +4378,7 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
             buf[i] = ' ';
         }
         buf[24] = '\0';
-        printString(buf, 0, y++, (dim ? &gray : &white), &black, 0);
+        printString(buf, 0, y++, (dim ? &gray : &white), &backgroundColor, 0);
     }
 
     // hit points
@@ -4411,7 +4415,7 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
         } else if (player.status[STATUS_NUTRITION] > 0) {
             printProgressBar(0, y++, "Nutrition (Faint)", player.status[STATUS_NUTRITION], STOMACH_SIZE, &blueBar, dim);
         } else if (y < ROWS - 1) {
-            printString("      STARVING      ", 0, y++, &badMessageColor, &black, NULL);
+            printString("      STARVING      ", 0, y++, &badMessageColor, &backgroundColor, NULL);
         }
     }
 
@@ -4455,32 +4459,32 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
 
             if (y < ROWS - 1) {
                 if (player.status[STATUS_HALLUCINATING] && !rogue.playbackOmniscience && y < ROWS - 1) {
-                    printString(hallucinationStrings[rand_range(0, 9)], 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                    printString(hallucinationStrings[rand_range(0, 9)], 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 } else if (monst->bookkeepingFlags & MB_CAPTIVE && y < ROWS - 1) {
-                    printString("     (Captive)      ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                    printString("     (Captive)      ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 } else if ((monst->info.flags & MONST_RESTRICTED_TO_LIQUID)
                            && !cellHasTMFlag(monst->xLoc, monst->yLoc, TM_ALLOWS_SUBMERGING)) {
-                    printString("     (Helpless)     ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                    printString("     (Helpless)     ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 } else if (monst->creatureState == MONSTER_SLEEPING && y < ROWS - 1) {
-                    printString("     (Sleeping)     ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                    printString("     (Sleeping)     ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 } else if ((monst->creatureState == MONSTER_ALLY) && y < ROWS - 1) {
-                    printString("       (Ally)       ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                    printString("       (Ally)       ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 } else if (monst->creatureState == MONSTER_FLEEING && y < ROWS - 1) {
-                    printString("     (Fleeing)      ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                    printString("     (Fleeing)      ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 } else if ((monst->creatureState == MONSTER_WANDERING) && y < ROWS - 1) {
                     if ((monst->bookkeepingFlags & MB_FOLLOWER) && monst->leader && (monst->leader->info.flags & MONST_IMMOBILE)) {
                         // follower of an immobile leader -- i.e. a totem
-                        printString("    (Worshiping)    ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                        printString("    (Worshiping)    ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                     } else if ((monst->bookkeepingFlags & MB_FOLLOWER) && monst->leader && (monst->leader->bookkeepingFlags & MB_CAPTIVE)) {
                         // actually a captor/torturer
-                        printString("     (Guarding)     ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                        printString("     (Guarding)     ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                     } else {
-                        printString("    (Wandering)     ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                        printString("    (Wandering)     ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                     }
                 } else if (monst->ticksUntilTurn > max(0, player.ticksUntilTurn) + player.movementSpeed) {
-                    printString("   (Off balance)    ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                    printString("   (Off balance)    ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 } else if ((monst->creatureState == MONSTER_TRACKING_SCENT) && y < ROWS - 1) {
-                    printString("     (Hunting)      ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+                    printString("     (Hunting)      ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                 }
             }
         } else if (monst == &player) {
@@ -4490,7 +4494,7 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                 if (player.status[STATUS_WEAKENED]) {
                     tempColor = red;
                     if (dim) {
-                        applyColorAverage(&tempColor, &black, 50);
+                        applyColorAverage(&tempColor, &backgroundColor, 50);
                     }
                     encodeMessageColor(tempColorEscape, 0, &tempColor);
                     encodeMessageColor(grayColorEscape, 0, (dim ? &darkGray : &gray));
@@ -4513,14 +4517,14 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                             estimatedArmorValue());
                 }
                 //buf[20] = '\0';
-                printString("                    ", 0, y, &white, &black, 0);
-                printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &black, 0);
+                printString("                    ", 0, y, &white, &backgroundColor, 0);
+                printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
             }
             if (y < ROWS - 1 && rogue.gold) {
                 sprintf(buf, "Gold: %li", rogue.gold);
                 buf[20] = '\0';
-                printString("                    ", 0, y, &white, &black, 0);
-                printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &black, 0);
+                printString("                    ", 0, y, &white, &backgroundColor, 0);
+                printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
             }
 
             // Brogueasy: display turn counter in player stats - except if already showing it due to playback
@@ -4529,8 +4533,8 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
             if (showTurnCount) {
                if (y < ROWS - 1) {
                  sprintf(buf, "Turn: %li", rogue.playerTurnNumber);
-                 printString("                    ", 0, y, &white, &black, 0);
-                 printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &black, 0);
+                 printString("                    ", 0, y, &white, &backgroundColor, 0);
+                 printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
                }
             }
             if (y < ROWS - 1) {
@@ -4538,7 +4542,7 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                 grayColorEscape[0] = '\0';
                 tempColor = playerInShadowColor;
                 percent = (rogue.aggroRange - 2) * 100 / 28;
-                applyColorAverage(&tempColor, &black, percent);
+                applyColorAverage(&tempColor, &backgroundColor, percent);
                 applyColorAugment(&tempColor, &playerInLightColor, percent);
                 if (dim) {
                     applyColorAverage(&tempColor, &black, 50);
@@ -4549,13 +4553,13 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                         tempColorEscape,
                         rogue.aggroRange,
                         grayColorEscape);
-                printString("                    ", 0, y, &white, &black, 0);
-                printString(buf, 1, y++, (dim ? &darkGray : &gray), &black, 0);
+                printString("                    ", 0, y, &white, &backgroundColor, 0);
+                printString(buf, 1, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
             }
         }
 
     if (y < ROWS - 1) {
-        printString("                    ", 0, y++, (dim ? &darkGray : &gray), &black, 0);
+        printString("                    ", 0, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
     }
 
     if (highlight) {
@@ -4591,6 +4595,8 @@ short printItemInfo(item *theItem, short y, boolean dim, boolean highlight) {
     boolean inPath;
     short oldRNG;
 
+    color backgroundColor = sidebarBackColor;
+
     if (y >= ROWS - 1) {
         return ROWS - 1;
     }
@@ -4612,11 +4618,11 @@ short printItemInfo(item *theItem, short y, boolean dim, boolean highlight) {
             pmap[theItem->xLoc][theItem->yLoc].flags |= IS_IN_PATH;
         }
         if (dim) {
-            applyColorAverage(&itemForeColor, &black, 50);
-            applyColorAverage(&itemBackColor, &black, 50);
+            applyColorAverage(&itemForeColor, &backgroundColor, 50);
+            applyColorAverage(&itemBackColor, &backgroundColor, 50);
         }
         plotCharWithColor(itemChar, 0, y, &itemForeColor, &itemBackColor);
-        printString(":                  ", 1, y, (dim ? &gray : &white), &black, 0);
+        printString(":                  ", 1, y, (dim ? &gray : &white), &backgroundColor, 0);
         if (rogue.playbackOmniscience || !player.status[STATUS_HALLUCINATING]) {
             itemName(theItem, name, true, true, (dim ? &gray : &white));
         } else {
@@ -4625,9 +4631,9 @@ short printItemInfo(item *theItem, short y, boolean dim, boolean highlight) {
         upperCase(name);
         lineCount = wrapText(NULL, name, 20-3);
         for (i=initialY + 1; i <= initialY + lineCount + 1 && i < ROWS - 1; i++) {
-            printString("                    ", 0, i, (dim ? &darkGray : &gray), &black, 0);
+            printString("                    ", 0, i, (dim ? &darkGray : &gray), &backgroundColor, 0);
         }
-        y = printStringWithWrapping(name, 3, y, 20-3, (dim ? &gray : &white), &black, NULL); // Advances y.
+        y = printStringWithWrapping(name, 3, y, 20-3, (dim ? &gray : &white), &backgroundColor, NULL); // Advances y.
     }
 
     if (highlight) {
@@ -4654,6 +4660,8 @@ short printTerrainInfo(short x, short y, short py, const char *description, bool
     color textColor;
     short oldRNG;
 
+    color backgroundColor = sidebarBackColor;
+
     if (py >= ROWS - 1) {
         return ROWS - 1;
     }
@@ -4675,22 +4683,22 @@ short printTerrainInfo(short x, short y, short py, const char *description, bool
             pmap[x][y].flags |= IS_IN_PATH;
         }
         if (dim) {
-            applyColorAverage(&foreColor, &black, 50);
-            applyColorAverage(&backColor, &black, 50);
+            applyColorAverage(&foreColor, &backgroundColor, 50);
+            applyColorAverage(&backColor, &backgroundColor, 50);
         }
         plotCharWithColor(displayChar, 0, py, &foreColor, &backColor);
-        printString(":                  ", 1, py, (dim ? &gray : &white), &black, 0);
+        printString(":                  ", 1, py, (dim ? &gray : &white), &backgroundColor, 0);
         strcpy(name, description);
         upperCase(name);
         lineCount = wrapText(NULL, name, 20-3);
         for (i=initialY + 1; i <= initialY + lineCount + 1 && i < ROWS - 1; i++) {
-            printString("                    ", 0, i, (dim ? &darkGray : &gray), &black, 0);
+            printString("                    ", 0, i, (dim ? &darkGray : &gray), &backgroundColor, 0);
         }
         textColor = flavorTextColor;
         if (dim) {
             applyColorScalar(&textColor, 50);
         }
-        py = printStringWithWrapping(name, 3, py, 20-3, &textColor, &black, NULL); // Advances y.
+        py = printStringWithWrapping(name, 3, py, 20-3, &textColor, &backgroundColor, NULL); // Advances y.
     }
 
     if (highlight) {

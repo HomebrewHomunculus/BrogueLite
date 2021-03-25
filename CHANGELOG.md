@@ -16,6 +16,9 @@ First version of Brogueasy, forked from Brogue Community Edition 1.9.3.
 -
   Removed potion of hallucination. Adjusted potion frequency accordingly.
 -
+  Removed cursed equipment, and negative runics (weapon of mercy/plenty, armor of burden/vulnerability/immolation),
+  which have no use once identified. Adjusted weapon, armor, and ring frequency accordingly. Also removed scroll of remove curse.
+-
   Added level feeling messages.
 -
   Added turn counter to sidebar.
