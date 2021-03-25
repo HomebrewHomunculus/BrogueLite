@@ -2380,8 +2380,6 @@ const char weaponRunicNames[NUMBER_WEAPON_RUNIC_KINDS][30] = {
     "confusion",
     "force",
     "slaying",
-    "mercy",
-    "plenty"
 };
 
 const char armorRunicNames[NUMBER_ARMOR_ENCHANT_KINDS][30] = {
@@ -2393,15 +2391,11 @@ const char armorRunicNames[NUMBER_ARMOR_ENCHANT_KINDS][30] = {
     "reflection",
     "respiration",
     "dampening",
-    "burden",
-    "vulnerability",
-    "immolation",
 };
 
 itemTable scrollTable[NUMBER_SCROLL_KINDS] = {
     {"enchanting",          itemTitles[0], "",  0,  550,    0,{0,0,0}, false, false, "This ancient enchanting sorcery will imbue a single item with a powerful and permanent magical charge. A staff will increase in power and in number of charges; a weapon will inflict more damage and find its mark more easily; a suit of armor will deflect attacks more often; the magic of a ring will intensify; and a wand will gain expendable charges in the least amount that such a wand can be found with. Weapons and armor will also require less strength to use, and any curses on the item will be lifted."}, // frequency is dynamically adjusted
     {"teleportation",       itemTitles[2], "",  10, 500,    0,{0,0,0}, false, false, "This escape spell will instantly relocate you to a random location on the dungeon level. It can be used to escape a dangerous situation with luck. The unlucky reader might find himself in an even more dangerous place."},
-    {"remove curse",        itemTitles[3], "",  15, 150,    0,{0,0,0}, false, false, "This redemption spell will instantly strip from the reader's weapon, armor, rings and carried items any evil enchantments that might prevent the wearer from removing them."},
     {"recharging",          itemTitles[4], "",  12, 375,    0,{0,0,0}, false, false, "The power bound up in this parchment will instantly recharge all of your staffs and charms."},
     {"protect armor",       itemTitles[5], "",  10, 400,    0,{0,0,0}, false, false, "This ceremonial shielding magic will permanently proof your armor against degradation by acid."},
     {"protect weapon",      itemTitles[6], "",  10, 400,    0,{0,0,0}, false, false, "This ceremonial shielding magic will permanently proof your weapon against degradation by acid."},
@@ -2457,6 +2451,7 @@ itemTable staffTable[NUMBER_STAFF_KINDS] = {
     {"protection",      itemWoods[12], "",  5,  900,    BOLT_SHIELDING,     {2,4,1}, false, false, "This staff will bathe a creature in a protective light that will absorb all damage until it is depleted. Unfortunately, you cannot use this or any staff on yourself except by reflecting the bolt."},
 };
 
+// TODO: remove cursed descriptions
 itemTable ringTable[NUMBER_RING_KINDS] = {
     {"clairvoyance",    itemGems[0], "",    1,  900,    0,{1,3,1}, false, false, "This ring of eldritch scrying will permit you to see through nearby walls and doors, within a radius determined by the level of the ring. A cursed ring of clairvoyance will blind you to your immediate surroundings."},
     {"stealth",         itemGems[1], "",    1,  800,    0,{1,3,1}, false, false, "This ring of silent passage will reduce your stealth range, making enemies less likely to notice you and more likely to lose your trail. Staying motionless and lurking in the shadows will make you even harder to spot. Cursed rings of stealth will increase your stealth range, making you easier to spot and to track."},

@@ -83,13 +83,26 @@ unsigned long pickItemCategory(unsigned long theCategory) {
     // Also, aggravate monsters = 15/158 and summon monsters = 10/158.
     // Removing all of them is a total 55/158 frequency, so reducing overall
     // scroll frequency by 35% = from 42 to ~27.
+    // After removing scroll of remove curse (15):
+    //
+    // 42*(1-(70/158)) = 23.39 ~= 23
     //
     // Potions had a total frequency of 189, with hallucination 10/189 = 5%.
     // So, after removing hallucinationg, reduce overall potion
     // probability from 52 to (52*(1-10/189)) ~= 49.
+    //
+    // Before removing curses:
+    // 16% of rings were cursed.
+    // 50% of enchanted weapons/armor were cursed. Since enchanted weapons/armor were 40% of weapons/armor in general,
+    // this means that 40%*20% = 8% of all weapons/armor were cursed.
+    // After removing curses:
+    // we must reduce the frequency of rings by 16%, and weapons and armor by 8%.
+    // rings:   16%*3 = 0.48 ~= 1 => reduce from 3 to 2
+    // weapons: 8%*10 = 0.89 ~= 1 => reduce from 10 to 9
+    // armor:   8%*8  = 0.64 ~= 1 => reduce from 8 to 7
 
 
-    short probabilities[13] =                       {50,    27,     49,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
+    short probabilities[13] =                       {50,    23,     49,     3,      3,      9,      7,      2,      2,      2,        0,        0,      0};
 
     unsigned short correspondingCategories[13] =    {GOLD,  SCROLL, POTION, STAFF,  WAND,   WEAPON, ARMOR,  FOOD,   RING,   CHARM,    AMULET,   GEM,    KEY};
 
@@ -178,23 +191,27 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
                     break;
             }
 
-            if (rand_percent(40)) {
+            // Brogueasy: don't generate cursed weapons.
+            // Reduce chance of enchanted weapons by half, from 40 to 20m,
+            // since the 50% of cursed enchants is removed
+            if (rand_percent(20)) {
                 theItem->enchant1 += rand_range(1, 3);
-                if (rand_percent(50)) {
+                /*if (rand_percent(50)) {
                     // cursed
                     theItem->enchant1 *= -1;
                     theItem->flags |= ITEM_CURSED;
                     if (rand_percent(33)) { // give it a bad runic
-                        theItem->enchant2 = rand_range(NUMBER_GOOD_WEAPON_ENCHANT_KINDS, NUMBER_WEAPON_RUNIC_KINDS - 1);
+                        theItem->enchant2 = rand_range(NUMBER_WEAPON_RUNIC_KINDS, NUMBER_WEAPON_RUNIC_KINDS - 1);
                         theItem->flags |= ITEM_RUNIC;
                     }
-                } else if (rand_range(3, 10)
+                } else */
+                if (rand_range(3, 10)
                            * ((theItem->flags & ITEM_ATTACKS_STAGGER) ? 2 : 1)
                            / ((theItem->flags & ITEM_ATTACKS_QUICKLY) ? 2 : 1)
                            / ((theItem->flags & ITEM_ATTACKS_EXTEND) ? 2 : 1)
                            > theItem->damage.lowerBound) {
                     // give it a good runic; lower damage items are more likely to be runic
-                    theItem->enchant2 = rand_range(0, NUMBER_GOOD_WEAPON_ENCHANT_KINDS - 1);
+                    theItem->enchant2 = rand_range(0, NUMBER_WEAPON_RUNIC_KINDS - 1);
                     theItem->flags |= ITEM_RUNIC;
                     if (theItem->enchant2 == W_SLAYING) {
                         theItem->vorpalEnemy = chooseVorpalEnemy();
@@ -227,18 +244,26 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
             theItem->strengthRequired = armorTable[itemKind].strengthRequired;
             theItem->displayChar = G_ARMOR;
             theItem->charges = ARMOR_DELAY_TO_AUTO_ID; // this many turns until it reveals its enchants and whether runic
-            if (rand_percent(40)) {
+
+
+            // Brogueasy: don't generate cursed armors.
+            // Reduce chance of enchanted armors by half, from 40 to 20m,
+            // since the 50% of cursed enchants is removed
+            if (rand_percent(20)) {
+            theEntry = &armorTable[itemKind];
+            theItem->armor = randClump(armorTable[itemKind].range);
                 theItem->enchant1 += rand_range(1, 3);
-                if (rand_percent(50)) {
+                /*if (rand_percent(50)) {
                     // cursed
                     theItem->enchant1 *= -1;
                     theItem->flags |= ITEM_CURSED;
                     if (rand_percent(33)) { // give it a bad runic
-                        theItem->enchant2 = rand_range(NUMBER_GOOD_ARMOR_ENCHANT_KINDS, NUMBER_ARMOR_ENCHANT_KINDS - 1);
+                        theItem->enchant2 = rand_range(NUMBER_ARMOR_ENCHANT_KINDS, NUMBER_ARMOR_ENCHANT_KINDS - 1);
                         theItem->flags |= ITEM_RUNIC;
                     }
-                } else if (rand_range(0, 95) > theItem->armor) { // give it a good runic
-                    theItem->enchant2 = rand_range(0, NUMBER_GOOD_ARMOR_ENCHANT_KINDS - 1);
+                } else*/
+                if (rand_range(0, 95) > theItem->armor) { // give it a good runic
+                    theItem->enchant2 = rand_range(0, NUMBER_ARMOR_ENCHANT_KINDS - 1);
                     theItem->flags |= ITEM_RUNIC;
                     if (theItem->enchant2 == A_IMMUNITY) {
                         theItem->vorpalEnemy = chooseVorpalEnemy();
@@ -300,15 +325,17 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
             theItem->displayChar = G_RING;
             theItem->enchant1 = randClump(ringTable[itemKind].range);
             theItem->charges = RING_DELAY_TO_AUTO_ID; // how many turns of being worn until it auto-identifies
-            if (rand_percent(16)) {
+
+            // Brogueasy: don't generate cursed rings.
+            /*if (rand_percent(16)) {
                 // cursed
                 theItem->enchant1 *= -1;
                 theItem->flags |= ITEM_CURSED;
-            } else {
+            } else {*/
                 while (rand_percent(10)) {
                     theItem->enchant1++;
                 }
-            }
+            //}
             break;
         case CHARM:
             if (itemKind < 0) {
@@ -978,8 +1005,9 @@ char nextAvailableInventoryCharacter() {
 void checkForDisenchantment(item *theItem) {
     char buf[COLS], buf2[COLS];
 
+    // Why do good runics get removed when enchanted to zero, but not bad runics when going up to zero?
     if ((theItem->flags & ITEM_RUNIC)
-        && (((theItem->category & WEAPON) && theItem->enchant2 < NUMBER_GOOD_WEAPON_ENCHANT_KINDS) || ((theItem->category & ARMOR) && theItem->enchant2 < NUMBER_GOOD_ARMOR_ENCHANT_KINDS))
+        && (((theItem->category & WEAPON) && theItem->enchant2 < NUMBER_WEAPON_RUNIC_KINDS) || ((theItem->category & ARMOR) && theItem->enchant2 < NUMBER_ARMOR_ENCHANT_KINDS))
         && theItem->enchant1 <= 0) {
 
         theItem->enchant2 = 0;
@@ -1824,9 +1852,7 @@ void itemDetails(char *buf, item *theItem) {
         "the enemy will be slowed",
         "the enemy will be confused",
         "the enemy will be flung",
-        "[slaying]", // never used
-        "the enemy will be healed",
-        "the enemy will be cloned"
+        "[slaying]" // never used
     };
 
     goodColorEscape[0] = badColorEscape[0] = whiteColorEscape[0] = '\0';
@@ -2178,10 +2204,10 @@ void itemDetails(char *buf, item *theItem) {
                                         strcat(buf, buf2);
                                         nextLevelState = weaponForceDistance(enchant + enchantIncrement(theItem));
                                         break;
-                                    case W_MERCY:
+                                    /*case W_MERCY:
                                         strcpy(buf2, " by 50% of its maximum health. ");
                                         strcat(buf, buf2);
-                                        break;
+                                        break;*/
                                     default:
                                         strcpy(buf2, ". ");
                                         strcat(buf, buf2);
@@ -2316,7 +2342,7 @@ void itemDetails(char *buf, item *theItem) {
                             case A_DAMPENING:
                                 strcpy(buf2, "When worn, it will safely absorb the concussive impact of any explosions (though you may still be burned). ");
                                 break;
-                            case A_BURDEN:
+                            /*case A_BURDEN:
                                 strcpy(buf2, "10% of the time it absorbs a blow, its strength requirement will permanently increase. ");
                                 break;
                             case A_VULNERABILITY:
@@ -2324,7 +2350,7 @@ void itemDetails(char *buf, item *theItem) {
                                 break;
                             case A_IMMOLATION:
                                 strcpy(buf2, "10% of the time it absorbs a blow, it will explode in flames. ");
-                                break;
+                                break;*/
                             default:
                                 break;
                         }
@@ -6505,10 +6531,11 @@ void magicMapCell(short x, short y) {
 }
 
 void readScroll(item *theItem) {
-    short i, j, x, y, numberOfMonsters = 0;
+    //short i, j, x, y, numberOfMonsters = 0;
+    short i, j = 0;
     item *tempItem;
-    creature *monst;
-    boolean hadEffect = false;
+    //creature *monst;
+    //boolean hadEffect = false;
     char buf[COLS * 3], buf2[COLS * 3];
 
     rogue.featRecord[FEAT_ARCHIVIST] = false;
@@ -6517,7 +6544,7 @@ void readScroll(item *theItem) {
         case SCROLL_TELEPORT:
             teleport(&player, -1, -1, true);
             break;
-        case SCROLL_REMOVE_CURSE:
+        /*case SCROLL_REMOVE_CURSE:
             for (tempItem = packItems->nextItem; tempItem != NULL; tempItem = tempItem->nextItem) {
                 if (tempItem->flags & ITEM_CURSED) {
                     hadEffect = true;
@@ -6529,7 +6556,7 @@ void readScroll(item *theItem) {
             } else {
                 message("your pack glows with a cleansing light, but nothing happens.", false);
             }
-            break;
+            break;*/
         case SCROLL_ENCHANTING:
             identify(theItem);
             messageWithColor("this is a scroll of enchanting.", &itemMessageColor, true);

@@ -739,7 +739,7 @@ void magicWeaponHit(creature *defender, item *theItem, boolean backstabbed) {
             case W_FORCE:
                 autoID = forceWeaponHit(defender, theItem);
                 break;
-            case W_MERCY:
+            /*case W_MERCY:
                 heal(defender, 50, false);
                 if (canSeeMonster(defender)) {
                     autoID = true;
@@ -753,7 +753,7 @@ void magicWeaponHit(creature *defender, item *theItem, boolean backstabbed) {
                         autoID = true;
                     }
                 }
-                break;
+                break;*/
             default:
                 break;
         }
@@ -923,7 +923,7 @@ void applyArmorRunicEffect(char returnString[DCOLS], creature *attacker, short *
                 runicDiscovered = true;
             }
             break;
-        case A_BURDEN:
+        /*case A_BURDEN:
             if (rand_percent(10)) {
                 rogue.armor->strengthRequired++;
                 sprintf(returnString, "your %s suddenly feels heavier!", armorName);
@@ -945,7 +945,7 @@ void applyArmorRunicEffect(char returnString[DCOLS], creature *attacker, short *
                 returnString[0] = '\0';
                 spawnDungeonFeature(player.xLoc, player.yLoc, &(dungeonFeatureCatalog[DF_ARMOR_IMMOLATION]), true, false);
                 runicDiscovered = true;
-            }
+            }*/
         default:
             break;
     }
