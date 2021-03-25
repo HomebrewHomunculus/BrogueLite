@@ -4358,7 +4358,7 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
         }
 
         sprintf(buf, ": %s", monstName);
-        printString(buf, monst->carriedItem?2:1, y++, (dim ? &gray : &white), &backgroundColor, 0);
+        printString(buf, monst->carriedItem?2:1, y++, (dim ? &monstForeColor : &monstForeColor), &backgroundColor, 0);
     }
 
     // mutation, if any
