@@ -315,6 +315,7 @@ const color poisonGasColor =        {75,    25,     85,     0,      0,          
 const color confusionGasColor =     {60,    60,     60,     40,     40,         40,         0,      true};
 
 // interface colors
+const color sidebarBackColor =      {4,     4,      8,      0,      0,          0,          0,      false};
 const color itemColor =             {100,   95,     -30,    0,      0,          0,          0,      false};
 const color blueBar =               {15,    10,     50,     0,      0,          0,          0,      false};
 const color redBar =                {45,    10,     15,     0,      0,          0,          0,      false};

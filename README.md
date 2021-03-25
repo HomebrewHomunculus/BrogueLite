@@ -17,6 +17,8 @@ About
 -
   Roguelike players who dislike the item identification game.
 -
++44 −22
+
   Brogue players who occasionally want to switch it up with a more casual experience.
 
 
@@ -39,6 +41,8 @@ Currently implemented:
   Removed negative scrolls that have very little use once identified.
 -
   Removed potion of hallucination, which has no use once identified.
+-
+  Removed cursed equipment, and negative runics, which have no use once identified. Also removed scroll of remove curse.
 -
   Added "level feeling" messages when descending.
 -
