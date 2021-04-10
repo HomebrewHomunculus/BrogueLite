@@ -1680,7 +1680,7 @@ void updateMonsterState(creature *monst) {
         // If wandering and you notice the player, start tracking the scent.
 
         if (canSeeMonster(monst)) {
-            monsterName(buf, monst, true);
+            monsterName(buf, monst, false);
             sprintf(buf2, "The %s notices you!", buf);
             messageWithColor(buf2, &badMessageColor, false);
         }
@@ -1689,7 +1689,7 @@ void updateMonsterState(creature *monst) {
         // if sleeping, the monster has a chance to awaken
         if (awareOfPlayer) {
             if (canSeeMonster(monst)) {
-                monsterName(buf, monst, true);
+                monsterName(buf, monst, false);
                 sprintf(buf2, "The %s wakes up!", buf);
                 messageWithColor(buf2, &badMessageColor, false);
             }
@@ -1703,7 +1703,7 @@ void updateMonsterState(creature *monst) {
                && closestFearedEnemy < 3) {
 
         if (canSeeMonster(monst)) {
-            monsterName(buf, monst, true);
+            monsterName(buf, monst, false);
             sprintf(buf2, "The %s flees!", buf);
             messageWithColor(buf2, &badMessageColor, false);
         }
@@ -1753,20 +1753,6 @@ void updateMonsterState(creature *monst) {
             monst->lastSeenPlayerAt[1] = player.yLoc;
         }
     }
-
-    /*if (oldState != monst->creatureState) {
-      // Monster state changed
-      sprintf(buf, "oldState: %d, newState: %d", (int)oldState, (int)monst->creatureState);
-      //message(buf, false);
-
-      if (oldState == MONSTER_SLEEPING) {
-        message("The monster wakes up!", false);
-      } else if (monst->creatureState == MONSTER_FLEEING) {
-        message("The monster flees!", false);
-      } else if (oldState == MONSTER_WANDERING && monst->creatureState == MONSTER_HUNTING) {
-        message("The monster notices you!", false);
-      }
-    }*/
 }
 
 void decrementMonsterStatus(creature *monst) {
