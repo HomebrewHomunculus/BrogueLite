@@ -42,39 +42,32 @@ Currently implemented:
 -
   Removed cursed equipment, and negative runics, which have no use once identified. Also removed scroll of remove curse.
 -
-  Added "level feeling" messages when descending.
+  Added "level feeling" messages when descending, as well as messages when monsters notice you, etc.
 -
-  Added turn counter to sidebar.
-
-TODO:
-
--
-  Remove or rework any staffs or wands which have no good use once identified.
--
-  Remove certain cursed equipment/negative runics/negative items which have no use once identified.
+  Various visual changes to sidebar.
 
 
-Planned potential changes - TBD:
+Possible ideas for potential further changes, TBD:
 
 -
-  Remove all wands. Replace certain wand types with staffs or charms where appropriate.
+  Are there any staffs or wands which have no good use once identified that need to be removed or reworked?
 -
-  Add some additional starting kit? Probably not needed, the free-identify ruleset already feels quite generous on items.
+  Are wands an unnecessary complication - if so, should wands be removed and replaced with staffs or charms where appropriate?
 -
-  Guaranteed vaults on D1?
+  Guaranteed vaults on dungeon level 1? Probably not needed since amount of items feels quite generous
+  at the moment (since you're not wasting any on use-ID).
 -
-  Replace some of the removed negative items and runics with new ones that make more sense
-  with the lack of identification?
-  Or give the existing one positive effects? For example: aggravating monsters makes them unable to cast spells.
+  Replace some of the removed negative items/runics with new ones that make more sense
+  with the lack of an identification minigame?
+  Or perhaps give the existing ones positive effects? For example: aggravating monsters makes them unable to cast spells.
   Armor of immolation automatically removes webs, nets, and creeping death at your feet.
 -
-  What should be done with the ally system? Would removing it simplify the game, or make it harder?
-  Should there be an alternative for players who don't wish to use allies but with an opportunity cost?
+  What should be done with the ally system? Is it complex enough to consider removing it, or an important part
+  of the game's appeal to new players? Should there be an alternative for players who don't wish to use allies but with an opportunity cost?
   (For example, instead of freeing a captured enemy, you could sacrifice it for some other reward?)
--
-  A message to notify when detected by enemies?
--
-  Level feeling messages, e.g. for levels with lava lakes and pits?
+
+
+
 
 
 
