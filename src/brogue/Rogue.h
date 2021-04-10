@@ -33,11 +33,11 @@
 #define USE_UNICODE
 
 // Brogue version: what the user sees in the menu and title
-#define BROGUE_VERSION_STRING "Brogueasy 1.9.3" BROGUE_EXTRA_VERSION
+#define BROGUE_VERSION_STRING "Brogue Lite 1.9.3" BROGUE_EXTRA_VERSION
 
 // Recording version. Saved into recordings and save files made by this version.
 // Cannot be longer than 16 chars
-#define BROGUE_RECORDING_VERSION_STRING "Brogueasy 1.9.3"
+#define BROGUE_RECORDING_VERSION_STRING "Brogue Lite 1.9.3"
 
 /* Patch pattern. A scanf format string which matches an unsigned short. If this
 matches against a recording version string, it defines a "patch version." During
@@ -49,10 +49,10 @@ which is equal or less than the patch version of the current game
 (rogue.patchLevel is set to the recording's); or b) it doesn't match the version
 strings, but they are equal (rogue.patchLevel is set to 0).
 */
-#define BROGUE_PATCH_VERSION_PATTERN "Brogueasy 1.9.%hu"
+#define BROGUE_PATCH_VERSION_PATTERN "Brogue Lite 1.9.%hu"
 
 // Dungeon version. Used in seed catalog output.
-#define BROGUE_DUNGEON_VERSION_STRING "Brogueasy 1.9"
+#define BROGUE_DUNGEON_VERSION_STRING "Brogue Lite 1.9"
 
 #define DEBUG                           if (rogue.wizard)
 #define MONSTERS_ENABLED                (!rogue.wizard || 1) // Quest room monsters can be generated regardless.
