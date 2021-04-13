@@ -75,7 +75,7 @@ unsigned long pickItemCategory(unsigned long theCategory) {
 
     //short probabilities[13] =                       {50,    42,     52,     3,      3,      10,     8,      2,      3,      2,        0,        0,      0};
 
-    // Brogueasy: adjust item frequencies
+    // Brogue Lite: adjust item frequencies
     //
     // We've removed scroll of identify, which is 30/158 of scrolls = 19%.
     // So should we reduce the relative frequency of scrolls by 19%?
@@ -191,7 +191,7 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
                     break;
             }
 
-            // Brogueasy: don't generate cursed weapons.
+            // Brogue Lite: don't generate cursed weapons.
             // Reduce chance of enchanted weapons by half, from 40 to 20m,
             // since the 50% of cursed enchants is removed
             if (rand_percent(20)) {
@@ -246,7 +246,7 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
             theItem->charges = ARMOR_DELAY_TO_AUTO_ID; // this many turns until it reveals its enchants and whether runic
 
 
-            // Brogueasy: don't generate cursed armors.
+            // Brogue Lite: don't generate cursed armors.
             // Reduce chance of enchanted armors by half, from 40 to 20m,
             // since the 50% of cursed enchants is removed
             if (rand_percent(20)) {
@@ -326,7 +326,7 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
             theItem->enchant1 = randClump(ringTable[itemKind].range);
             theItem->charges = RING_DELAY_TO_AUTO_ID; // how many turns of being worn until it auto-identifies
 
-            // Brogueasy: don't generate cursed rings.
+            // Brogue Lite: don't generate cursed rings.
             /*if (rand_percent(16)) {
                 // cursed
                 theItem->enchant1 *= -1;
@@ -441,7 +441,7 @@ item *placeItem(item *theItem, short x, short y) {
         }
     }
 
-    // Brogueasy: identify items automatically when placed in level
+    // Brogue Lite: identify items automatically when placed in level
     identify(theItem);
 
     return theItem;
@@ -2818,7 +2818,7 @@ char displayInventory(unsigned short categoryMask,
         itemName(theItem, buf, true, true, (buttons[i].flags & B_HOVER_ENABLED) ? &white : &gray);
         upperCase(buf);
 
-        if ((true) // Brogueasy: always reveal magic polarity of inventory items
+        if ((true) // Brogue Lite: always reveal magic polarity of inventory items
             && !(theItem->category & AMULET)) { // Won't include food, keys, lumenstones or amulet.
 
             int polarity = itemMagicPolarity(theItem);
@@ -6824,7 +6824,7 @@ void drinkPotion(item *theItem) {
             for (tempItem = packItems->nextItem; tempItem != NULL; tempItem = tempItem->nextItem) {
                 if (tempItem->category & CAN_BE_DETECTED) {
                     detectMagicOnItem(tempItem);
-                    // Brogueasy: inventory items' polarity is already displayed, so no need to print a message.
+                    // Brogue Lite: inventory items' polarity is already displayed, so no need to print a message.
                     // However, inventory items that are detected here and then thrown or stolen will glow on the map.
                 }
             }

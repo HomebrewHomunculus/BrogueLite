@@ -2211,7 +2211,7 @@ boolean useStairs(short stairDirection) {
                 rogue.deepestLevel = rogue.depthLevel;
             }
 
-            // Brogueasy: print descend message with level feeling if there is a lake, chasm, or lava.
+            // Brogue Lite: print descend message with level feeling if there is a lake, chasm, or lava.
             printLevelFeeling();
 
             //copyDisplayBuffer(toBuf, displayBuffer);

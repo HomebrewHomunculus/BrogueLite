@@ -1,9 +1,9 @@
-Brogueasy Changelog
+Brogue Lite Changelog
 ====
 
 1.9.3
 ====
-First version of Brogueasy, forked from Brogue Community Edition 1.9.3.
+First version of Brogue Lite, forked from Brogue Community Edition 1.9.3.
 
 -
   Removed item identification: all items start out as already identified.
@@ -27,9 +27,9 @@ First version of Brogueasy, forked from Brogue Community Edition 1.9.3.
   Added more visually distinct colors to sidebar monster statuses.
   Made monster names in the sidebar use the same color as the monster's symbol.
 -
-  Updated Info.plist and Rogue.h to refer to "Brogueasy" instead of "CE".
+  Updated Info.plist and Rogue.h to refer to "Brogue Lite" instead of "CE".
 -
-  Updated README.md to introduce Brogueasy.
+  Updated README.md to introduce Brogue Lite.
 
 
 
