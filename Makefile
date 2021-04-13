@@ -58,7 +58,7 @@ windows/icon.o: windows/icon.rc
 
 bin/brogue.exe: $(objects) windows/icon.o
 	$(CC) $(cflags) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(libs) $(LDLIBS)
-	mt -manifest windows/brogue.exe.manifest '-outputresource:bin/brogue-lite.exe;1'
+	mt -manifest windows/brogue.exe.manifest '-outputresource:bin/brogue.exe;1'
 
 clean:
 	$(RM) src/brogue/*.o src/platform/*.o bin/brogue{,.exe}
@@ -71,13 +71,13 @@ common-bin := bin/assets bin/keymap.txt
 	cp $< $@
 
 windows.zip: $(common-files) $(common-bin)
-	zip -rvl $@ $^ bin/brogue-lite.exe bin/*.dll bin/brogue-cmd.bat
+	zip -rvl $@ $^ bin/brogue.exe bin/*.dll bin/brogue-cmd.bat
 
 macos.zip: $(common-files)
-	chmod +x "Brogue Lite.app"/Contents/MacOS/brogue-lite
-	zip -rv -ll $@ $^ "Brogue Lite.app"
+	chmod +x "Brogue CE.app"/Contents/MacOS/brogue
+	zip -rv -ll $@ $^ "Brogue CE.app"
 
-linux.tar.gz: $(common-files) $(common-bin) brogue-lite
+linux.tar.gz: $(common-files) $(common-bin) brogue
 	chmod +x bin/brogue
 	tar -cavf $@ $^ bin/brogue -C linux make-link-for-desktop.sh
 
@@ -90,7 +90,7 @@ macos/Brogue.icns: icon_32.png icon_128.png icon_256.png icon_512.png
 	png2icns $@ $^
 	$(RM) $^
 
-Brogue Lite.app: bin/brogue
+Brogue.app: bin/brogue
 	mkdir -p $@/Contents/{MacOS,Resources}
 	cp macos/Info.plist $@/Contents
 	cp bin/brogue $@/Contents/MacOS
