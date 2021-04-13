@@ -56,7 +56,7 @@ bin/brogue: $(objects)
 windows/icon.o: windows/icon.rc
 	windres $< $@
 
-bin/brogue-lite.exe: $(objects) windows/icon.o
+bin/brogue.exe: $(objects) windows/icon.o
 	$(CC) $(cflags) $(CFLAGS) $(LDFLAGS) -o $@ $^ $(libs) $(LDLIBS)
 	mt -manifest windows/brogue.exe.manifest '-outputresource:bin/brogue-lite.exe;1'
 
