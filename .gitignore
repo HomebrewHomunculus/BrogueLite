@@ -2,10 +2,14 @@
 bin/*.brogue*
 bin/BrogueHighScores.txt
 bin/brogue*
+
+# Release dirs and archives
+BrogueCE-*
+
 .vscode
+
 *.su
 *.gcda
 *.gcno
 *.gcov
 gmon.out
-
