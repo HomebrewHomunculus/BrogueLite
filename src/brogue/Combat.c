@@ -571,8 +571,8 @@ void magicWeaponHit(creature *defender, item *theItem, boolean backstabbed) {
     char buf[DCOLS*3], monstName[DCOLS], theItemName[DCOLS];
 
     color *effectColors[NUMBER_WEAPON_RUNIC_KINDS] = {&white, &black,
-        &yellow, &pink, &green, &confusionGasColor, NULL, NULL, &darkRed, &rainbow};
-    //  W_SPEED, W_QUIETUS, W_PARALYSIS, W_MULTIPLICITY, W_SLOWING, W_CONFUSION, W_FORCE, W_SLAYING, W_MERCY, W_PLENTY
+        &yellow, &pink, &green, &confusionGasColor, NULL, NULL};
+    //  W_SPEED, W_QUIETUS, W_PARALYSIS, W_MULTIPLICITY, W_SLOWING, W_CONFUSION, W_FORCE, W_SLAYING
     short chance, i;
     fixpt enchant;
     enum weaponEnchants enchantType = theItem->enchant2;
@@ -1183,9 +1183,6 @@ boolean attack(creature *attacker, creature *defender, boolean lungeAttack) {
             }
             if (armorRunicString[0]) {
                 message(armorRunicString, false);
-                if (rogue.armor && (rogue.armor->flags & ITEM_RUNIC) && rogue.armor->enchant2 == A_BURDEN) {
-                    strengthCheck(rogue.armor);
-                }
             }
         }
 
