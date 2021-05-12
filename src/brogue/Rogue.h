@@ -775,7 +775,6 @@ enum weaponEnchants {
     W_CONFUSION,
     W_FORCE,
     W_SLAYING,
-    W_MERCY,
     NUMBER_WEAPON_RUNIC_KINDS
 };
 
@@ -798,7 +797,6 @@ enum armorEnchants {
     A_REFLECTION,
     A_RESPIRATION,
     A_DAMPENING,
-    A_BURDEN,
     NUMBER_ARMOR_ENCHANT_KINDS
 };
 
