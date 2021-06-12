@@ -1622,7 +1622,8 @@ void itemName(item *theItem, char *root, boolean includeDetails, boolean include
             sprintf(root, "%slumenstone%s%s from depth %i", yellowEscapeSequence, pluralization, baseEscapeSequence, theItem->originDepth);
             break;
         case KEY:
-            if (includeDetails && theItem->originDepth > 0 && theItem->originDepth != rogue.depthLevel) {
+            if (includeDetails && theItem->originDepth > 0 && theItem->originDepth != rogue.depthLevel
+              && (!(theItem->flags & ITEM_IS_FUNGIBLE_KEY))) { // Brogue Lite: fungible keys' depth doesn't matter
                 sprintf(root, "%s%s%s from depth %i",
                         keyTable[theItem->kind].name,
                         pluralization,
