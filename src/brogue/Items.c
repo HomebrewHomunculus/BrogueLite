@@ -352,7 +352,9 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
         case GOLD:
             theEntry = NULL;
             theItem->displayChar = G_GOLD;
-            theItem->quantity = rand_range(50 + rogue.depthLevel * 10, 100 + rogue.depthLevel * 15);
+            // Brogue Lite: no gold amounts fuzzing
+            theItem->quantity = 100;
+            //theItem->quantity = rand_range(50 + rogue.depthLevel * 10, 100 + rogue.depthLevel * 15);
             break;
         case AMULET:
             theEntry = NULL;
