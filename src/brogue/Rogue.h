@@ -1295,6 +1295,8 @@ enum itemFlags {
 
     ITEM_KIND_AUTO_ID       = Fl(22),   // the item type will become known when the item is picked up.
     ITEM_PLAYER_AVOIDS      = Fl(23),   // explore and travel will try to avoid picking the item up
+
+    ITEM_IS_FUNGIBLE_KEY    = Fl(24),   // Brogue Lite: only fungible keys should be consumed by iron doors
 };
 
 #define KEY_ID_MAXIMUM  20
@@ -1860,6 +1862,7 @@ enum terrainMechanicalFlagCatalog {
     TM_INTERRUPT_EXPLORATION_WHEN_SEEN = Fl(22),    // will generate a message when discovered during exploration to interrupt exploration
     TM_INVERT_WHEN_HIGHLIGHTED      = Fl(23),       // will flip fore and back colors when highlighted with pathing
     TM_SWAP_ENCHANTS_ACTIVATION     = Fl(24),       // in machine, swap item enchantments when two suitable items are on this terrain, and activate the machine when that happens
+    TM_ACCEPTS_FUNGIBLE_KEY         = Fl(25),       // Brogue Lite: any key can be used and consumed here (for iron doors)
 };
 
 enum statusEffects {

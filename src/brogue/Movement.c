@@ -391,6 +391,8 @@ void useKeyAt(item *theItem, short x, short y) {
     char buf[COLS], buf2[COLS], terrainName[COLS], preposition[10];
     boolean disposable;
 
+    disposable = false;
+
     strcpy(terrainName, "unknown terrain"); // redundant failsafe
     for (layer = 0; layer < NUMBER_TERRAIN_LAYERS; layer++) {
         if (tileCatalog[pmap[x][y].layers[layer]].mechFlags & TM_PROMOTES_WITH_KEY) {
@@ -407,22 +409,26 @@ void useKeyAt(item *theItem, short x, short y) {
             }
             promoteTile(x, y, layer, false);
         }
+
+        // Brogue Lite: Keys can be used in any iron door
+        if ((theItem->flags & ITEM_IS_KEY)
+            && (theItem->flags & ITEM_IS_FUNGIBLE_KEY)
+            && (tileCatalog[pmap[x][y].layers[layer]].mechFlags & TM_ACCEPTS_FUNGIBLE_KEY)) {
+              disposable = true;
+        }
     }
 
-    disposable = false;
-    // Brogue Lite: Now that keys can be used anywhere, they can also be disposable anywhere
-    for (i=0; i < KEY_ID_MAXIMUM && (theItem->keyLoc[i].x || theItem->keyLoc[i].machine); i++) {
-        if (theItem->keyLoc[i].disposableHere) {
-            disposable = true;
+
+    for (i=0; i < KEY_ID_MAXIMUM; i++) {
+
+        if (theItem->keyLoc[i].x || theItem->keyLoc[i].machine) {
+          if (theItem->keyLoc[i].x == x && theItem->keyLoc[i].y == y && theItem->keyLoc[i].disposableHere) {
+              disposable = true;
+          } else if (theItem->keyLoc[i].machine == pmap[x][y].machineNumber && theItem->keyLoc[i].disposableHere) {
+              disposable = true;
+          }
         }
     }
-    /*for (i=0; i < KEY_ID_MAXIMUM && (theItem->keyLoc[i].x || theItem->keyLoc[i].machine); i++) {
-        if (theItem->keyLoc[i].x == x && theItem->keyLoc[i].y == y && theItem->keyLoc[i].disposableHere) {
-            disposable = true;
-        } else if (theItem->keyLoc[i].machine == pmap[x][y].machineNumber && theItem->keyLoc[i].disposableHere) {
-            disposable = true;
-        }
-    }*/
 
     if (disposable) {
         if (removeItemFromChain(theItem, packItems)) {

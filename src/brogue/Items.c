@@ -3274,12 +3274,14 @@ void equip(item *theItem) {
 // (2) its originDepth matches the depth, and
 // (3) either its key (x, y) location matches (x, y), or its machine number matches the machine number at (x, y).
 boolean keyMatchesLocation(item *theItem, short x, short y) {
-    // Brogue Lite: all keys fit all doors
-    if ((theItem->flags & ITEM_IS_KEY)) {
+    short i;
+
+    // Brogue Lite: any key can be used in iron doors
+    if ((theItem->flags & ITEM_IS_KEY)
+        && (theItem->flags & ITEM_IS_FUNGIBLE_KEY)
+        && (tileCatalog[pmap[x][y].layers[DUNGEON]].mechFlags & TM_ACCEPTS_FUNGIBLE_KEY)) {
       return true;
     }
-
-    /*short i;
 
     if ((theItem->flags & ITEM_IS_KEY)
         && theItem->originDepth == rogue.depthLevel) {
@@ -3291,7 +3293,7 @@ boolean keyMatchesLocation(item *theItem, short x, short y) {
                 return true;
             }
         }
-    }*/
+    }
     return false;
 }
 
