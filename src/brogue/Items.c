@@ -3274,7 +3274,12 @@ void equip(item *theItem) {
 // (2) its originDepth matches the depth, and
 // (3) either its key (x, y) location matches (x, y), or its machine number matches the machine number at (x, y).
 boolean keyMatchesLocation(item *theItem, short x, short y) {
-    short i;
+    // Brogue Lite: all keys fit all doors
+    if ((theItem->flags & ITEM_IS_KEY)) {
+      return true;
+    }
+
+    /*short i;
 
     if ((theItem->flags & ITEM_IS_KEY)
         && theItem->originDepth == rogue.depthLevel) {
@@ -3286,7 +3291,7 @@ boolean keyMatchesLocation(item *theItem, short x, short y) {
                 return true;
             }
         }
-    }
+    }*/
     return false;
 }
 

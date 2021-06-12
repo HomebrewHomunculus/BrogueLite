@@ -410,13 +410,19 @@ void useKeyAt(item *theItem, short x, short y) {
     }
 
     disposable = false;
+    // Brogue Lite: Now that keys can be used anywhere, they can also be disposable anywhere
     for (i=0; i < KEY_ID_MAXIMUM && (theItem->keyLoc[i].x || theItem->keyLoc[i].machine); i++) {
+        if (theItem->keyLoc[i].disposableHere) {
+            disposable = true;
+        }
+    }
+    /*for (i=0; i < KEY_ID_MAXIMUM && (theItem->keyLoc[i].x || theItem->keyLoc[i].machine); i++) {
         if (theItem->keyLoc[i].x == x && theItem->keyLoc[i].y == y && theItem->keyLoc[i].disposableHere) {
             disposable = true;
         } else if (theItem->keyLoc[i].machine == pmap[x][y].machineNumber && theItem->keyLoc[i].disposableHere) {
             disposable = true;
         }
-    }
+    }*/
 
     if (disposable) {
         if (removeItemFromChain(theItem, packItems)) {
