@@ -940,7 +940,25 @@ item *addItemToPack(item *theItem) {
                 return tempItem;
             }
         }
-    } else if (theItem->category & WEAPON && theItem->quiverNumber > 0) {
+    } else if (theItem->category & KEY) {
+      // Brogue lite: stack fungible keys
+      if ((theItem->flags & ITEM_IS_KEY)
+          && (theItem->flags & ITEM_IS_FUNGIBLE_KEY)) {
+            for (tempItem = packItems->nextItem; tempItem != NULL; tempItem = tempItem->nextItem) {
+                if ((tempItem->flags & ITEM_IS_KEY)
+                    && (tempItem->flags & ITEM_IS_FUNGIBLE_KEY)) {
+
+                    // We found a match!
+                    stackItems(tempItem, theItem);
+
+                    // Pass back the incremented (old) item. No need to add it to the pack since it's already there.
+                    return tempItem;
+                }
+            }
+
+          }
+    }
+    else if (theItem->category & WEAPON && theItem->quiverNumber > 0) {
         for (tempItem = packItems->nextItem; tempItem != NULL; tempItem = tempItem->nextItem) {
             if (theItem->category == tempItem->category && theItem->kind == tempItem->kind
                 && theItem->quiverNumber == tempItem->quiverNumber) {
@@ -1630,10 +1648,10 @@ void itemName(item *theItem, char *root, boolean includeDetails, boolean include
                         grayEscapeSequence,
                         theItem->originDepth);
             } else {
-                sprintf(root,
-                        keyTable[theItem->kind].name,
-                        "%s%s",
-                        pluralization);
+                  sprintf(root,
+                          "%s%s",
+                          keyTable[theItem->kind].name,
+                          pluralization);
             }
             break;
         default:

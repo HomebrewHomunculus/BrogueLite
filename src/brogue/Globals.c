@@ -2330,7 +2330,7 @@ const char itemGemsRef[NUMBER_ITEM_GEMS][30] = {
 //} itemTable;
 
 const itemTable keyTable[NUMBER_KEY_TYPES] = {
-    {"iron key",            "", "", 1, 0,   0, {0,0,0}, true, false, "The notches on this ancient iron key are well worn; its leather lanyard is battered by age. Perhaps there are iron doors somewhere?"},
+    {"iron key",            "", "", 1, 0,   0, {0,0,0}, true, false, "The notches on these ancient iron keys are well worn; their leather lanyards battered by age. Perhaps there are iron doors somewhere?"},
     {"cage key",            "", "", 1, 0,   0, {0,0,0}, true, false, "The rust accreted on this iron key has been stained with flecks of blood; it must have been used recently. What cage might it open?"},
     {"crystal orb",         "", "", 1, 0,   0, {0,0,0}, true, false, "A faceted orb, seemingly cut from a single crystal, sparkling and perpetually warm to the touch. What manner of device might such an object activate?"},
 };

@@ -402,6 +402,11 @@ void initializeRogue(uint64_t seed) {
     theItem->flags |= (ITEM_IS_KEY | ITEM_IS_FUNGIBLE_KEY);
     theItem = addItemToPack(theItem);
 
+    theItem = generateItem(KEY, 0);
+    theItem->flags |= (ITEM_IS_KEY | ITEM_IS_FUNGIBLE_KEY);
+    theItem = addItemToPack(theItem);
+
+
     recalculateEquipmentBonuses();
 
     DEBUG {

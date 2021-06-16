@@ -437,24 +437,28 @@ void useKeyAt(item *theItem, short x, short y) {
     }
 
     if (disposable) {
-        if (removeItemFromChain(theItem, packItems)) {
-            itemName(theItem, buf2, true, false, NULL);
-            sprintf(buf, "you use your %s %s %s.",
-                    buf2,
-                    preposition,
-                    terrainName);
-            messageWithColor(buf, &itemMessageColor, false);
-            deleteItem(theItem);
-        } else if (removeItemFromChain(theItem, floorItems)) {
-            deleteItem(theItem);
-            pmap[x][y].flags &= ~HAS_ITEM;
-        } else if (pmap[x][y].flags & HAS_MONSTER) {
-            monst = monsterAtLoc(x, y);
-            if (monst->carriedItem && monst->carriedItem == theItem) {
-                monst->carriedItem = NULL;
-                deleteItem(theItem);
-            }
-        }
+      // Brogue Lite: fungiblek keys can stack, so shouldn't delete but decrement the stack instead
+      if (theItem->quantity > 1) {
+          theItem->quantity--;
+        } else {
+          if (removeItemFromChain(theItem, packItems)) {
+              itemName(theItem, buf2, true, false, NULL);
+              sprintf(buf, "you use your %s %s %s.",
+                      buf2,
+                      preposition,
+                      terrainName);
+              messageWithColor(buf, &itemMessageColor, false);
+          } else if (removeItemFromChain(theItem, floorItems)) {
+              deleteItem(theItem);
+              pmap[x][y].flags &= ~HAS_ITEM;
+          } else if (pmap[x][y].flags & HAS_MONSTER) {
+              monst = monsterAtLoc(x, y);
+              if (monst->carriedItem && monst->carriedItem == theItem) {
+                  monst->carriedItem = NULL;
+                  deleteItem(theItem);
+              }
+          }
+      }
     }
 }
 
