@@ -446,7 +446,7 @@ const floorTileType tileCatalog[NUMBER_TILETYPES] = {
     {G_CLOSED_DOOR, &doorForeColor,         &doorBackColor,         25, 50, DF_EMBERS,      0,          DF_OPEN_DOOR,   0,              NO_LIGHT,       (T_OBSTRUCTS_VISION | T_OBSTRUCTS_GAS | T_IS_FLAMMABLE), (TM_STAND_IN_TILE | TM_VANISHES_UPON_PROMOTION | TM_PROMOTES_ON_STEP | TM_VISUALLY_DISTINCT), "a wooden door", "you pass through the doorway."},
     {G_OPEN_DOOR,   &doorForeColor,         &doorBackColor,         25, 50, DF_EMBERS,      0,          DF_CLOSED_DOOR, 10000,          NO_LIGHT,       (T_IS_FLAMMABLE), (TM_STAND_IN_TILE | TM_VANISHES_UPON_PROMOTION | TM_VISUALLY_DISTINCT),           "an open door",         "you pass through the doorway."},
     {G_WALL,        &wallForeColor,         &wallBackColor,         0,  50, DF_EMBERS,      DF_SHOW_DOOR,0,             0,              NO_LIGHT,       (T_OBSTRUCTS_EVERYTHING | T_IS_FLAMMABLE), (TM_STAND_IN_TILE | TM_VANISHES_UPON_PROMOTION | TM_IS_SECRET),  "a stone wall",     "The rough stone wall is firm and unyielding."},
-    {G_CLOSED_IRON_DOOR,&ironDoorForeColor, &ironDoorBackColor,     15, 50, DF_EMBERS,      0,          DF_OPEN_IRON_DOOR_INERT,0,      NO_LIGHT,       (T_OBSTRUCTS_EVERYTHING), (TM_STAND_IN_TILE | TM_VANISHES_UPON_PROMOTION | TM_PROMOTES_WITH_KEY | TM_LIST_IN_SIDEBAR | TM_VISUALLY_DISTINCT | TM_BRIGHT_MEMORY | TM_INTERRUPT_EXPLORATION_WHEN_SEEN | TM_INVERT_WHEN_HIGHLIGHTED),  "a locked iron door",   "you search your pack but do not have a matching key."},
+    {G_CLOSED_IRON_DOOR,&ironDoorForeColor, &ironDoorBackColor,     15, 50, DF_EMBERS,      0,          DF_OPEN_IRON_DOOR_INERT,0,      NO_LIGHT,       (T_OBSTRUCTS_EVERYTHING), (TM_STAND_IN_TILE | TM_VANISHES_UPON_PROMOTION | TM_PROMOTES_WITH_KEY | TM_LIST_IN_SIDEBAR | TM_VISUALLY_DISTINCT | TM_BRIGHT_MEMORY | TM_INTERRUPT_EXPLORATION_WHEN_SEEN | TM_INVERT_WHEN_HIGHLIGHTED | TM_ACCEPTS_FUNGIBLE_KEY),  "a locked iron door",   "you search your pack but do not have an iron key."},
     {G_OPEN_IRON_DOOR,&white,               &ironDoorBackColor,     90, 50, DF_EMBERS,      0,          0,              0,              NO_LIGHT,       (T_OBSTRUCTS_SURFACE_EFFECTS), (TM_STAND_IN_TILE | TM_VISUALLY_DISTINCT),                           "an open iron door",    "you pass through the doorway."},
     {G_DOWN_STAIRS, &itemColor,             &stairsBackColor,       30, 0,  DF_PLAIN_FIRE,  0,          DF_REPEL_CREATURES, 0,          NO_LIGHT,       (T_OBSTRUCTS_ITEMS | T_OBSTRUCTS_SURFACE_EFFECTS), (TM_PROMOTES_ON_STEP | TM_STAND_IN_TILE | TM_LIST_IN_SIDEBAR | TM_VISUALLY_DISTINCT | TM_BRIGHT_MEMORY | TM_INTERRUPT_EXPLORATION_WHEN_SEEN | TM_INVERT_WHEN_HIGHLIGHTED), "a downward staircase",   "stairs spiral downward into the depths."},
     {G_UP_STAIRS,   &itemColor,             &stairsBackColor,       30, 0,  DF_PLAIN_FIRE,  0,          DF_REPEL_CREATURES, 0,          NO_LIGHT,       (T_OBSTRUCTS_ITEMS | T_OBSTRUCTS_SURFACE_EFFECTS), (TM_PROMOTES_ON_STEP | TM_STAND_IN_TILE | TM_LIST_IN_SIDEBAR | TM_VISUALLY_DISTINCT | TM_BRIGHT_MEMORY | TM_INTERRUPT_EXPLORATION_WHEN_SEEN | TM_INVERT_WHEN_HIGHLIGHTED), "an upward staircase",    "stairs spiral upward."},
@@ -1242,7 +1242,7 @@ const blueprint blueprintCatalog[NUMBER_BLUEPRINTS] = {
 
     // Plain locked door, key guarded by an adoptive room
     {{1, AMULET_LEVEL}, {1, 1},     100,        1,      0,                  (BP_VESTIBULE), {
-        {0,         LOCKED_DOOR, DUNGEON,       {1,1},      1,          KEY,        KEY_DOOR,   0,              1,              0,          (ITEM_IS_KEY | ITEM_PLAYER_AVOIDS), (MF_BUILD_AT_ORIGIN | MF_PERMIT_BLOCKING | MF_GENERATE_ITEM | MF_OUTSOURCE_ITEM_TO_MACHINE | MF_KEY_DISPOSABLE | MF_IMPREGNABLE)}}},
+        {0,         LOCKED_DOOR, DUNGEON,       {1,1},      1,          KEY,        KEY_DOOR,   0,              1,              0,          (ITEM_IS_KEY | ITEM_IS_FUNGIBLE_KEY | ITEM_PLAYER_AVOIDS), (MF_BUILD_AT_ORIGIN | MF_PERMIT_BLOCKING | MF_GENERATE_ITEM | MF_OUTSOURCE_ITEM_TO_MACHINE | MF_KEY_DISPOSABLE | MF_IMPREGNABLE)}}},
     // Plain secret door
     {{2, AMULET_LEVEL}, {1, 1},     1,      1,          0,                  (BP_VESTIBULE), {
         {0,         SECRET_DOOR, DUNGEON,       {1,1},      1,          0,          0,          0,              1,              0,          0,          (MF_BUILD_AT_ORIGIN | MF_PERMIT_BLOCKING)}}},
@@ -2330,7 +2330,7 @@ const char itemGemsRef[NUMBER_ITEM_GEMS][30] = {
 //} itemTable;
 
 const itemTable keyTable[NUMBER_KEY_TYPES] = {
-    {"door key",            "", "", 1, 0,   0, {0,0,0}, true, false, "The notches on this ancient iron key are well worn; its leather lanyard is battered by age. What door might it open?"},
+    {"iron key",            "", "", 1, 0,   0, {0,0,0}, true, false, "The notches on these ancient iron keys are well worn; their leather lanyards battered by age. Perhaps there are iron doors somewhere?"},
     {"cage key",            "", "", 1, 0,   0, {0,0,0}, true, false, "The rust accreted on this iron key has been stained with flecks of blood; it must have been used recently. What cage might it open?"},
     {"crystal orb",         "", "", 1, 0,   0, {0,0,0}, true, false, "A faceted orb, seemingly cut from a single crystal, sparkling and perpetually warm to the touch. What manner of device might such an object activate?"},
 };

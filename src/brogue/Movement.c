@@ -390,6 +390,10 @@ void useKeyAt(item *theItem, short x, short y) {
     creature *monst;
     char buf[COLS], buf2[COLS], terrainName[COLS], preposition[10];
     boolean disposable;
+    boolean acceptsFungible;
+
+    disposable = false;
+    acceptsFungible = false;
 
     strcpy(terrainName, "unknown terrain"); // redundant failsafe
     for (layer = 0; layer < NUMBER_TERRAIN_LAYERS; layer++) {
@@ -405,38 +409,56 @@ void useKeyAt(item *theItem, short x, short y) {
             } else {
                 strcpy(preposition, "on");
             }
+
+            // Brogue Lite: Keys can be used in any iron door
+            if (tileCatalog[pmap[x][y].layers[layer]].mechFlags & TM_ACCEPTS_FUNGIBLE_KEY) {
+                acceptsFungible = true;
+            }
+
             promoteTile(x, y, layer, false);
         }
     }
 
-    disposable = false;
-    for (i=0; i < KEY_ID_MAXIMUM && (theItem->keyLoc[i].x || theItem->keyLoc[i].machine); i++) {
-        if (theItem->keyLoc[i].x == x && theItem->keyLoc[i].y == y && theItem->keyLoc[i].disposableHere) {
-            disposable = true;
-        } else if (theItem->keyLoc[i].machine == pmap[x][y].machineNumber && theItem->keyLoc[i].disposableHere) {
-            disposable = true;
+    if ((theItem->flags & ITEM_IS_KEY)
+        && (theItem->flags & ITEM_IS_FUNGIBLE_KEY)
+        && acceptsFungible) {
+          disposable = true;
+    }
+
+    for (i=0; i < KEY_ID_MAXIMUM; i++) {
+
+        if (theItem->keyLoc[i].x || theItem->keyLoc[i].machine) {
+          if (theItem->keyLoc[i].x == x && theItem->keyLoc[i].y == y && theItem->keyLoc[i].disposableHere) {
+              disposable = true;
+          } else if (theItem->keyLoc[i].machine == pmap[x][y].machineNumber && theItem->keyLoc[i].disposableHere) {
+              disposable = true;
+          }
         }
     }
 
     if (disposable) {
-        if (removeItemFromChain(theItem, packItems)) {
-            itemName(theItem, buf2, true, false, NULL);
-            sprintf(buf, "you use your %s %s %s.",
-                    buf2,
-                    preposition,
-                    terrainName);
-            messageWithColor(buf, &itemMessageColor, false);
-            deleteItem(theItem);
-        } else if (removeItemFromChain(theItem, floorItems)) {
-            deleteItem(theItem);
-            pmap[x][y].flags &= ~HAS_ITEM;
-        } else if (pmap[x][y].flags & HAS_MONSTER) {
-            monst = monsterAtLoc(x, y);
-            if (monst->carriedItem && monst->carriedItem == theItem) {
-                monst->carriedItem = NULL;
-                deleteItem(theItem);
-            }
-        }
+      // Brogue Lite: fungiblek keys can stack, so shouldn't delete but decrement the stack instead
+      if (theItem->quantity > 1) {
+          theItem->quantity--;
+        } else {
+          if (removeItemFromChain(theItem, packItems)) {
+              itemName(theItem, buf2, true, false, NULL);
+              sprintf(buf, "you use your %s %s %s.",
+                      buf2,
+                      preposition,
+                      terrainName);
+              messageWithColor(buf, &itemMessageColor, false);
+          } else if (removeItemFromChain(theItem, floorItems)) {
+              deleteItem(theItem);
+              pmap[x][y].flags &= ~HAS_ITEM;
+          } else if (pmap[x][y].flags & HAS_MONSTER) {
+              monst = monsterAtLoc(x, y);
+              if (monst->carriedItem && monst->carriedItem == theItem) {
+                  monst->carriedItem = NULL;
+                  deleteItem(theItem);
+              }
+          }
+      }
     }
 }
 
