@@ -390,8 +390,10 @@ void useKeyAt(item *theItem, short x, short y) {
     creature *monst;
     char buf[COLS], buf2[COLS], terrainName[COLS], preposition[10];
     boolean disposable;
+    boolean acceptsFungible;
 
     disposable = false;
+    acceptsFungible = false;
 
     strcpy(terrainName, "unknown terrain"); // redundant failsafe
     for (layer = 0; layer < NUMBER_TERRAIN_LAYERS; layer++) {
@@ -407,17 +409,21 @@ void useKeyAt(item *theItem, short x, short y) {
             } else {
                 strcpy(preposition, "on");
             }
-            promoteTile(x, y, layer, false);
-        }
 
-        // Brogue Lite: Keys can be used in any iron door
-        if ((theItem->flags & ITEM_IS_KEY)
-            && (theItem->flags & ITEM_IS_FUNGIBLE_KEY)
-            && (tileCatalog[pmap[x][y].layers[layer]].mechFlags & TM_ACCEPTS_FUNGIBLE_KEY)) {
-              disposable = true;
+            // Brogue Lite: Keys can be used in any iron door
+            if (tileCatalog[pmap[x][y].layers[layer]].mechFlags & TM_ACCEPTS_FUNGIBLE_KEY) {
+                acceptsFungible = true;
+            }
+
+            promoteTile(x, y, layer, false);
         }
     }
 
+    if ((theItem->flags & ITEM_IS_KEY)
+        && (theItem->flags & ITEM_IS_FUNGIBLE_KEY)
+        && acceptsFungible) {
+          disposable = true;
+    }
 
     for (i=0; i < KEY_ID_MAXIMUM; i++) {
 
