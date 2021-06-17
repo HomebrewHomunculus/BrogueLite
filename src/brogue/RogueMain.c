@@ -1074,8 +1074,10 @@ void gameOver(char *killedBy, boolean useCustomPhrasing) {
         sprintf(buf, "Killed by a%s %s on depth %i", (isVowelish(killedBy) ? "n" : ""), killedBy,
                 rogue.depthLevel);
     }
-    // Score for gold pieces
+
+    // Brogue Lite: gold grants only 1 score per 100 pieces, i.e. 1 score per gold pile
     theEntry.score = rogue.gold;
+    theEntry.score /= 100;
     if (rogue.easyMode) {
         theEntry.score /= 10;
     }
@@ -1188,11 +1190,12 @@ void victory(boolean superVictory) {
     sprintf(buf, "%li", rogue.gold);
     printString(buf, mapToWindowX(60), mapToWindowY(1), &itemMessageColor, &black, dbuf);
 
-    // Score for gold pieces
+    // Brogue Lite: gold grants only 1 score per 100 pieces, i.e. 1 score per gold pile
     totalValue += rogue.gold;
+    totalValue /= 100;
 
     // Brogue Lite: score for max depth reached
-    theEntry.score += rogue.depthLevel;
+    totalValue += rogue.depthLevel;
 
     // Score for lumenstones & amulet (other items' score value is checked but always 0)
     for (i = 4, theItem = packItems->nextItem; theItem != NULL; theItem = theItem->nextItem) {
