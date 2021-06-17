@@ -567,4 +567,3 @@ boolean isApplicationActive(void) {
     // FIXME: finish
     return true;
 }
-

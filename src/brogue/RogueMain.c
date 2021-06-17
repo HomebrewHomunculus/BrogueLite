@@ -1074,15 +1074,21 @@ void gameOver(char *killedBy, boolean useCustomPhrasing) {
         sprintf(buf, "Killed by a%s %s on depth %i", (isVowelish(killedBy) ? "n" : ""), killedBy,
                 rogue.depthLevel);
     }
+    // Score for gold pieces
     theEntry.score = rogue.gold;
     if (rogue.easyMode) {
         theEntry.score /= 10;
     }
+
     strcpy(highScoreText, buf);
     if (theEntry.score > 0) {
         sprintf(buf2, " with %li gold", theEntry.score);
         strcat(buf, buf2);
     }
+
+    // Brogue Lite: score for max depth reached
+    theEntry.score += rogue.depthLevel;
+
     if (numberOfMatchingPackItems(AMULET, 0, 0, false) > 0) {
         strcat(buf, ", amulet in hand");
     }
@@ -1181,8 +1187,14 @@ void victory(boolean superVictory) {
     printString("Gold", mapToWindowX(4), mapToWindowY(1), &white, &black, dbuf);
     sprintf(buf, "%li", rogue.gold);
     printString(buf, mapToWindowX(60), mapToWindowY(1), &itemMessageColor, &black, dbuf);
+
+    // Score for gold pieces
     totalValue += rogue.gold;
 
+    // Brogue Lite: score for max depth reached
+    theEntry.score += rogue.depthLevel;
+
+    // Score for lumenstones & amulet (other items' score value is checked but always 0)
     for (i = 4, theItem = packItems->nextItem; theItem != NULL; theItem = theItem->nextItem) {
         if (theItem->category & GEM) {
             gemCount += theItem->quantity;
