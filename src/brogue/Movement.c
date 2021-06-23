@@ -440,6 +440,13 @@ void useKeyAt(item *theItem, short x, short y) {
       // Brogue Lite: fungiblek keys can stack, so shouldn't delete but decrement the stack instead
       if (theItem->quantity > 1) {
           theItem->quantity--;
+
+          itemName(theItem, buf2, true, false, NULL);
+          sprintf(buf, "you use one of your %ss %s %s.",
+                  buf2,
+                  preposition,
+                  terrainName);
+          messageWithColor(buf, &itemMessageColor, false);
         } else {
           if (removeItemFromChain(theItem, packItems)) {
               itemName(theItem, buf2, true, false, NULL);
