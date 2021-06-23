@@ -146,6 +146,10 @@ typedef long long fixpt;
 #define AMULET_LEVEL            26          // how deep before the amulet appears
 #define DEEPEST_LEVEL           40          // how deep the universe goes
 
+// Brogue Lite: scoring
+#define SCORE_PER_DEPTH         1     // how many points we give on each descent
+#define GOLD_PER_PILE           1     // how many gold pieces we place in each pile (when using fixed pile sizes)
+
 #define MACHINES_FACTOR         FP_FACTOR   // use this to adjust machine frequency
 
 #define MACHINES_BUFFER_LENGTH  200

@@ -765,6 +765,9 @@ void startLevel(short oldLevelNumber, short stairDirection) {
 
     if (!levels[rogue.depthLevel-1].visited) {
         levels[rogue.depthLevel-1].visited = true;
+        // Brogue Lite: add 1 score (= gold) for each level visited
+        rogue.gold += SCORE_PER_DEPTH;
+
         if (rogue.depthLevel == AMULET_LEVEL) {
             messageWithColor("An alien energy permeates the area. The Amulet of Yendor must be nearby!", &itemMessageColor, false);
         } else if (rogue.depthLevel == DEEPEST_LEVEL) {
@@ -1074,15 +1077,21 @@ void gameOver(char *killedBy, boolean useCustomPhrasing) {
         sprintf(buf, "Killed by a%s %s on depth %i", (isVowelish(killedBy) ? "n" : ""), killedBy,
                 rogue.depthLevel);
     }
+
+    // Brogue Lite: gold grants 1 score per piece but there is only 1 piece/score in each gold pile (defined in GOLD_PER_PILE)
+    // we also score for depth by adding gold when descending (defined in SCORE_PER_DEPTH)
     theEntry.score = rogue.gold;
     if (rogue.easyMode) {
         theEntry.score /= 10;
     }
+
     strcpy(highScoreText, buf);
     if (theEntry.score > 0) {
         sprintf(buf2, " with %li gold", theEntry.score);
         strcat(buf, buf2);
     }
+
+
     if (numberOfMatchingPackItems(AMULET, 0, 0, false) > 0) {
         strcat(buf, ", amulet in hand");
     }
@@ -1178,11 +1187,16 @@ void victory(boolean superVictory) {
     printString(displayedMessage[0], mapToWindowX(0), mapToWindowY(-1), &white, &black, dbuf);
 
     plotCharToBuffer(G_GOLD, mapToWindowX(2), mapToWindowY(1), &yellow, &black, dbuf);
-    printString("Gold", mapToWindowX(4), mapToWindowY(1), &white, &black, dbuf);
+    printString("Score", mapToWindowX(4), mapToWindowY(1), &white, &black, dbuf);
     sprintf(buf, "%li", rogue.gold);
     printString(buf, mapToWindowX(60), mapToWindowY(1), &itemMessageColor, &black, dbuf);
+
+
+    // Brogue Lite: gold grants 1 score per piece but there is only 1 piece/score in each gold pile (defined in GOLD_PER_PILE)
+    // we also score for depth by adding gold when descending (defined in SCORE_PER_DEPTH)
     totalValue += rogue.gold;
 
+    // Score for lumenstones & amulet (other items' score value is checked but always 0)
     for (i = 4, theItem = packItems->nextItem; theItem != NULL; theItem = theItem->nextItem) {
         if (theItem->category & GEM) {
             gemCount += theItem->quantity;
