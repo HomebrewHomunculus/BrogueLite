@@ -1,0 +1,112 @@
+name: "Build"
+on:
+  push:
+
+jobs:
+
+  linux:
+    runs-on: ubuntu-16.04
+    steps:
+    - name: "Install dependencies"
+      run: |
+        sudo apt update -y
+        sudo apt install -y libsdl2-dev libsdl2-image-dev
+
+    - name: "Checkout sources"
+      uses: actions/checkout@v2
+
+    - name: "Compile"
+      run: |
+        make bin/brogue
+
+    - name: "Create artifact"
+      run: |
+        make BrogueCE-linux
+        tar -czvf BrogueCE-linux-x86_64.tar.gz BrogueCE-linux
+
+    - name: "Upload artifact"
+      uses: actions/upload-artifact@v2
+      with:
+        name: linux-x86_64
+        path: BrogueCE-linux-x86_64.tar.gz
+
+  macos:
+    runs-on: macos-latest
+    steps:
+    - name: "Checkout sources"
+      uses: actions/checkout@v2
+
+    - name: "Prepare"
+      run: |
+        make macos/sdl2.rb
+
+    - name: "Cache SDL2"
+      uses: actions/cache@v2
+      with:
+        path: sdl2-cellar
+        key: sdl2-${{hashFiles('macos/sdl2.rb')}}
+
+    - name: "Compile and install dependencies"
+      run: |
+        if [ -d sdl2-cellar ]; then
+          cp -r sdl2-cellar $(brew --cellar)/sdl2
+          brew link sdl2
+        else
+          brew install --build-from-source ./macos/sdl2.rb
+          cp -r $(brew --cellar)/sdl2 sdl2-cellar
+        fi
+        brew install sdl2_image dylibbundler
+
+    - name: "Compile"
+      run: |
+        make MAC_APP=YES Brogue.app
+      env:
+        # 10.6 is the version targeted by the SDL build scripts
+        MACOSX_DEPLOYMENT_TARGET: "10.6"
+
+    - name: "Fix and bundle dylib references"
+      run: |
+        cd Brogue.app/Contents && dylibbundler -cd -b -x MacOS/brogue
+
+    - name: "Create artifact"
+      run: |
+        make BrogueCE-macos
+        zip -rll BrogueCE-macos-x86_64.zip BrogueCE-macos
+
+    - name: "Upload artifact"
+      uses: actions/upload-artifact@v2
+      with:
+        name: macos-x86_64
+        path: BrogueCE-macos-x86_64.zip
+
+  windows:
+    runs-on: windows-latest
+    steps:
+    - name: "Checkout sources"
+      uses: actions/checkout@v2
+
+    - name: "Install dependencies"
+      run: |
+        .\.github\get-deps-mingw.ps1
+
+    - name: "Compile"
+      shell: powershell
+      run: |
+        $env:path = $env:path + ";" + (Join-Path $pwd.Drive.Root "opt/local/x86_64-w64-mingw32/bin")
+        $env:path = $env:path + ';C:\Program Files (x86)\Windows Kits\10\bin\x64'
+        mingw32-make CC=gcc bin/brogue.exe
+
+    - name: "Create artifact"
+      run: |
+        mingw32-make BrogueCE-windows
+        cp SDL2\x86_64-w64-mingw32\bin\SDL2.dll BrogueCE-windows
+        cp SDL2_image\x86_64-w64-mingw32\bin\zlib1.dll BrogueCE-windows
+        cp SDL2_image\x86_64-w64-mingw32\bin\SDL2_image.dll BrogueCE-windows
+        cp SDL2_image\x86_64-w64-mingw32\bin\libpng16-16.dll BrogueCE-windows
+        7z a BrogueCE-windows-x86_64.zip BrogueCE-windows
+
+    - name: "Upload artifact"
+      uses: actions/upload-artifact@v2
+      with:
+        name: windows-x86_64
+        path: BrogueCE-windows-x86_64.zip
