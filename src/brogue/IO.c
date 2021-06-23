@@ -4524,7 +4524,7 @@ short printMonsterInfo(creature *monst, short y, boolean dim, boolean highlight)
                 printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);
             }
             if (y < ROWS - 1 && rogue.gold) {
-                sprintf(buf, "Gold: %li", rogue.gold);
+                sprintf(buf, "Score: %li", rogue.gold);
                 buf[20] = '\0';
                 printString("                    ", 0, y, &white, &backgroundColor, 0);
                 printString(buf, (20 - strLenWithoutEscapes(buf)) / 2, y++, (dim ? &darkGray : &gray), &backgroundColor, 0);

@@ -353,7 +353,7 @@ item *makeItemInto(item *theItem, unsigned long itemCategory, short itemKind) {
             theEntry = NULL;
             theItem->displayChar = G_GOLD;
             // Brogue Lite: no gold amounts fuzzing
-            theItem->quantity = 100;
+            theItem->quantity = GOLD_PER_PILE;
             //theItem->quantity = rand_range(50 + rogue.depthLevel * 10, 100 + rogue.depthLevel * 15);
             break;
         case AMULET:
@@ -830,8 +830,13 @@ void pickUpItemAt(short x, short y) {
         }
 
         if (theItem->category & GOLD) {
+            // Brogue Lite: 1 gold per pile (defined in GOLD_PER_PILE)
             rogue.gold += theItem->quantity;
-            sprintf(buf, "you found %i pieces of gold.", theItem->quantity);
+            if (theItem->quantity > 1) {
+              sprintf(buf, "you found %i pieces of gold.", theItem->quantity);
+            } else {
+              sprintf(buf, "you found a piece of gold.", theItem->quantity);
+            }
             messageWithColor(buf, &itemMessageColor, false);
             deleteItem(theItem);
             removeItemFrom(x, y); // triggers tiles with T_PROMOTES_ON_ITEM_PICKUP
