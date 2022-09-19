@@ -1,3 +1,8 @@
+# This repository is archived. Please see Brogue Lite's new home at:
+
+# https://github.com/HomebrewHomunculus/BrogueCE
+
+
 Brogue Lite
 =========
 
